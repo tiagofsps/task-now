@@ -27,7 +27,7 @@ function Searchbar() {
 
   return (
     <Navbar className="bg-body-tertiary justify-content-between">
-      <Form inline>
+      <Form className="d-flex align-items-center">
         <InputGroup>
           <InputGroup.Text id="basic-addon1">Tipo de Serviço</InputGroup.Text>
           <Form.Control
@@ -37,7 +37,7 @@ function Searchbar() {
           />
         </InputGroup>
       </Form>
-      <Form inline>
+      <Form className="d-flex align-items-center">
         <Row>
           <Col xs="auto">
             <Form.Control
