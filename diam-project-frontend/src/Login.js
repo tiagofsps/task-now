@@ -4,19 +4,16 @@ import logo from "./assets/TaskNow_logo.png";
 import axios from "axios";
 import {Link, useNavigate} from 'react-router-dom';
 import {useState} from 'react';
-import { useAuth } from "./AuthContext";
 
 function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
-    const { login } = useAuth();
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             await axios.post('http://localhost:8000/utilizadores/api/login/', {username, password}, {withCredentials: true});
             alert('Login successful!');
-            login(username);
             navigate('/');
         } catch (error) {
             if (error.response && error.response.data && error.response.data.error) {
