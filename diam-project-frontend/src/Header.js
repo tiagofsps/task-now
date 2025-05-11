@@ -16,12 +16,9 @@ function Header() {
     const checkLoginStatus = async () => {
         try {
             const response = await axios.get('http://localhost:8000/utilizadores/api/user/', {withCredentials: true});
-            console.log("estou aqui1");
             if (response.data.user && response.data.user.username) {
                 setIsLoggedIn(true);  // Utilizador está logado
-                console.log("estou aqui2");
                 if (response.data.tipo === 'prestador') {
-                    console.log("boas");
                     setIsPrestador(true);
                 }
             }
@@ -50,8 +47,9 @@ function Header() {
                             A tua conta
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
-                            <Dropdown.Item onClick={() => navigate('/perfil')}>Perfil</Dropdown.Item>{isPrestador ? (
-                            <Dropdown.Item onClick={() => navigate('/anuncios')}>Gerir Anúncios</Dropdown.Item>
+                            <Dropdown.Item onClick={() => navigate('/profile')}>Perfil</Dropdown.Item>
+                            {isPrestador ? (
+                            <Dropdown.Item onClick={() => navigate('/anuncio')}>Anunciar</Dropdown.Item>
                         ) : null}
 
                             <Dropdown.Item
@@ -60,12 +58,8 @@ function Header() {
                                         await axios.get('http://localhost:8000/utilizadores/api/logout/', {
                                             withCredentials: true,
                                         });
-                                        // Opcional: mostra um alerta ou notificação
-                                        alert('Logout efetuado com sucesso!');
-                                        // Redirecionar para a homepage
                                         navigate('/');
-                                        // (Opcional) Atualizar o estado de login local, se o estiveres a usar
-                                        window.location.reload(); // para garantir que o Header reflete o novo estado
+                                        window.location.reload();
                                     } catch (error) {
                                         alert('Erro ao efetuar logout.');
                                         console.error(error);
