@@ -9,7 +9,7 @@ from django.db import transaction
 from .models import Utilizador
 
 @api_view(['POST'])
-def signup(request):
+def signup_view(request):
     username = request.data.get('user', {}).get('username')
 
     if not username:
