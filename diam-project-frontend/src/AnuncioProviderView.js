@@ -8,11 +8,15 @@ import Button from 'react-bootstrap/Button';
 import logo from "./assets/TaskNow_logo.png";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import UpdateAnuncioModal from "./UpdateAnuncioModal";
+import DeleteAnuncioModal from "./DeleteAnuncioModal";
 
-function Anuncio() {
+function AnuncioProviderView() {
     const navigate = useNavigate();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isPrestador, setIsPrestador] = useState(false);
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [anuncio, setAnuncio] = useState(null);
     const [index, setIndex] = useState(0);
 
@@ -93,7 +97,8 @@ function Anuncio() {
                     <Col>
                         <Badge bg="primary" className="me-2" style={{size: "20px"}}>{anuncio.titulo}</Badge>
                         <Badge bg="secondary">{anuncio.distrito}</Badge>
-                        <> </> {/* adiciona um espaço entre os badges */}
+                        <> </>
+                        {/* adiciona um espaço entre os badges */}
                         <Badge bg="secondary">{anuncio.contacto}</Badge>
                     </Col>
                 </Row>
@@ -164,11 +169,23 @@ function Anuncio() {
                     </Carousel>
                 )}
             </div>
-            <Button variant="primary" onClick={() => navigate("/")}>Editar Anúncio</Button>
-            <> </> {/* adiciona um espaço entre os badges */}
-            <Button variant="danger" onClick={() => navigate("/")}>Remover Anúncio</Button>
+            <Button variant="primary" onClick={() => setShowEditModal(true)}>Editar Anúncio</Button>
+            {' '}
+            <Button variant="danger" onClick={() => setShowDeleteModal(true)}>Remover Anúncio</Button>
+
+            <UpdateAnuncioModal
+                show={showEditModal}
+                onHide={() => setShowEditModal(false)}
+                anuncio={anuncio}
+            />
+
+            <DeleteAnuncioModal
+                show={showDeleteModal}
+                onHide={() => setShowDeleteModal(false)}
+                anuncioId={anuncio.id}
+            />
         </div>
     );
 }
 
-export default Anuncio;
+export default AnuncioProviderView;

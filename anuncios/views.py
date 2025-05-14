@@ -67,11 +67,10 @@ def apagar_anuncio(request, anuncio_id):
         return Response({'erro': 'Anúncio não encontrado.'}, status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def anuncio_detalhe(request, anuncio_id):
+def anuncio_detalhes(request, anuncio_id):
     """Retorna os detalhes de um anúncio específico"""
     try:
-        anuncio = Anuncio.objects.get(id=anuncio_id, autor=request.user)
+        anuncio = Anuncio.objects.get(id=anuncio_id)
     except Anuncio.DoesNotExist:
         return Response({'erro': 'Anúncio não encontrado.'}, status=status.HTTP_404_NOT_FOUND)
 
@@ -88,4 +87,20 @@ def listar_distritos(request):
 def listar_tipos_servico(request):
     servicos = TipoServico.objects.all()
     serializer = TipoServicoSerializer(servicos, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def anuncio_search(request):
+    distrito_ids = request.GET.getlist('distrito_id')
+    tiposervico_ids = request.GET.getlist('tiposervico_id')
+
+    anuncios = Anuncio.objects.all()
+
+    if distrito_ids:
+        anuncios = anuncios.filter(distrito_id__in=distrito_ids).distinct()
+
+    if tiposervico_ids:
+        anuncios = anuncios.filter(tipo_servico__id__in=tiposervico_ids).distinct()
+
+    serializer = AnuncioSerializer(anuncios, many=True)
     return Response(serializer.data)

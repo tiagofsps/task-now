@@ -7,13 +7,15 @@ class ImagemAnuncioSerializer(serializers.ModelSerializer):
         fields = ['id', 'imagem']  # Campos das imagens associadas ao anúncio
 
 class AnuncioSerializer(serializers.ModelSerializer):
-    """Serializer para leitura de Anuncios."""
     primeiro_nome = serializers.CharField(source='autor.first_name', read_only=True)
     ultimo_nome = serializers.CharField(source='autor.last_name', read_only=True)
     contacto = serializers.CharField(source='autor.utilizador.contacto', read_only=True)
     distrito = serializers.StringRelatedField()
-    tipo_servico = serializers.StringRelatedField(many=True)
+    tipos_servico = serializers.SerializerMethodField()
     imagens = ImagemAnuncioSerializer(many=True, read_only=True)
+
+    def get_tipos_servico(self, obj):
+        return [str(servico) for servico in obj.tipo_servico.all()]
 
     class Meta:
         model = Anuncio
@@ -23,7 +25,7 @@ class AnuncioSerializer(serializers.ModelSerializer):
             'ultimo_nome',
             'contacto',
             'distrito',
-            'tipo_servico',
+            'tipos_servico',
             'titulo',
             'descricao',
             'imagem_perfil',
