@@ -1,69 +1,109 @@
 import Navbar from 'react-bootstrap/Navbar';
 import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import InputGroup from 'react-bootstrap/InputGroup';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { MultiSelect } from 'primereact/multiselect';
+import { FloatLabel } from 'primereact/floatlabel';
+import { Button } from 'react-bootstrap';
+import axios from 'axios';
 
 function Searchbar() {
-  const [query, setQuery] = useState('');
-  const [sugestoes, setSugestoes] = useState([]);
+    const navigate = useNavigate();
+    const [tiposServico, setTiposServico] = useState([]);
+    const [distritos, setDistritos] = useState([]);
+    const [formData, setFormData] = useState({
+        tipos_servico: [],
+        distritos: [],
+    });
 
-  useEffect(() => {
-    if (query.length === 0) {
-      setSugestoes([]);
-      return;
-    }
+    useEffect(() => {
+        axios.get('http://127.0.0.1:8000/anuncios/api/distritos/')
+            .then((response) => {
+                const options = response.data.map(d => ({
+                    label: d.nome,
+                    value: d.id
+                }));
+                setDistritos(options);
+            })
+            .catch((error) => {
+                console.error('Erro ao obter distritos:', error);
+            });
+    }, []);
 
-    const fetchSugestoes = async () => {
-      const response = await fetch(`http://localhost:8000/anuncios/sugerir-distritos/?q=${query}`);
-      const data = await response.json();
-      setSugestoes(data);
+    useEffect(() => {
+        axios.get('http://127.0.0.1:8000/anuncios/api/tipos_servico/')
+            .then((response) => {
+                const options = response.data.map(servico => ({
+                    value: servico.id,
+                    label: servico.designacao
+                }));
+                setTiposServico(options);
+            })
+            .catch((error) => {
+                console.error('Erro ao obter tipos de serviço:', error);
+            });
+    }, []);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        if (formData.tipos_servico.length === 0 || formData.distritos.length === 0) {
+            alert('Seleciona pelo menos um tipo de serviço e um distrito.');
+            return;
+        }
+
+        // Navegar para a página de resultados com os parâmetros da pesquisa
+        navigate('/search/ver-anuncios', {
+            state: {
+                tipos_servico: formData.tipos_servico,
+                distritos: formData.distritos
+            }
+        });
     };
 
-    fetchSugestoes();
-  }, [query]);
+    return (
+        <Navbar className="bg-body-tertiary justify-content-between">
+            <Form className="d-flex align-items-center w-100" onSubmit={handleSubmit}>
+                <div className="me-3 w-50">
+                    <FloatLabel>
+                        <label className="form-label">Tipos de Serviço</label>
+                        <MultiSelect
+                            value={formData.tipos_servico}
+                            options={tiposServico}
+                            onChange={(e) =>
+                                setFormData(prev => ({ ...prev, tipos_servico: e.value }))
+                            }
+                            placeholder="Seleciona tipos de serviço"
+                            optionLabel="label"
+                            maxSelectedLabels={3}
+                            className="w-85"
+                            display="chip"
+                        />
+                    </FloatLabel>
+                </div>
 
-  return (
-    <Navbar className="bg-body-tertiary justify-content-between">
-      <Form className="d-flex align-items-center">
-        <InputGroup>
-          <InputGroup.Text id="basic-addon1">Tipo de Serviço</InputGroup.Text>
-          <Form.Control
-            placeholder="ex: eletricista"
-            aria-label="Username"
-            aria-describedby="basic-addon1"
-          />
-        </InputGroup>
-      </Form>
-      <Form className="d-flex align-items-center">
-        <Row>
-          <Col xs="auto">
-            <Form.Control
-              list="distritos"
-              type="text"
-              placeholder="Distrito"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-            />
-            <datalist id="distritos">
-              {sugestoes.length > 0 ? (
-                sugestoes.map((distrito, i) => (
-                  <option key={i} value={distrito} />
-                ))
-              ) : (
-                <option disabled>Sem resultados</option>
-              )}
-            </datalist>
-          </Col>
-          <Col xs="auto">
-            <Button type="submit">Procurar</Button>
-          </Col>
-        </Row>
-      </Form>
-    </Navbar>
-  );
+                <div className="me-3 w-50">
+                    <FloatLabel>
+                        <label className="form-label">Distritos</label>
+                        <MultiSelect
+                            value={formData.distritos}
+                            options={distritos}
+                            onChange={(e) =>
+                                setFormData(prev => ({ ...prev, distritos: e.value }))
+                            }
+                            placeholder="Seleciona distritos"
+                            optionLabel="label"
+                            maxSelectedLabels={3}
+                            className="w-85"
+                            display="chip"
+                        />
+                    </FloatLabel>
+                </div>
+
+                <Button type="submit" variant="primary">Pesquisar</Button>
+            </Form>
+        </Navbar>
+    );
 }
 
 export default Searchbar;

@@ -1,2 +1,4 @@
+/node_modules/
 /.venv/
 /diam-project-frontend/node_modules/
+/diam-project-frontend/build
