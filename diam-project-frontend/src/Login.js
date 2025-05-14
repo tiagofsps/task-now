@@ -13,7 +13,6 @@ function Login() {
         e.preventDefault();
         try {
             await axios.post('http://localhost:8000/utilizadores/api/login/', {username, password}, {withCredentials: true});
-            alert('Login successful!');
             navigate('/');
         } catch (error) {
             if (error.response && error.response.data && error.response.data.error) {

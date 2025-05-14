@@ -1,11 +1,12 @@
 import {useState} from "react";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import logo from "./assets/TaskNow_logo.png";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
 
 function Signup() {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         first_name: "",
         last_name: "",
@@ -20,20 +21,23 @@ function Signup() {
 
     const handleChange = (e) => {
         const {name, value, type, checked} = e.target;
-        setFormData((prev) => ({
-            ...prev,
-            [name]: type === "checkbox" ? checked : value,
-        }));
+        setFormData((prev) => {
+            const updated = {
+                ...prev,
+                [name]: type === "checkbox" ? checked : value,
+            };
+            if (name === "password" || name === "confirmPassword") {
+                setPasswordMatchError(updated.password !== updated.confirmPassword);
+            }
+            return updated;
+        });
     };
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (formData.password !== formData.confirmPassword) {
             alert("As passwords não coincidem.");
-            return;
-        }
-        if (!formData.termsAccepted) {
-            alert("Tens de aceitar os termos e condições.");
             return;
         }
 
@@ -49,12 +53,17 @@ function Signup() {
                 contacto: formData.contacto,
                 tipo: formData.tipo,
             });
-            alert("Utilizador criado com sucesso!");
+            await axios.post('http://localhost:8000/utilizadores/api/login/', {
+                username: formData.username,
+                password: formData.password
+            }, {withCredentials: true});
+            navigate('/');
         } catch (error) {
             console.error(error);
-            alert("Erro ao criar utilizador.");
+            alert("Signup error: " + error.message);
         }
     };
+    const [passwordMatchError, setPasswordMatchError] = useState(false);
 
     return (
         <div className="Container">
@@ -98,7 +107,17 @@ function Signup() {
 
                 <Form.Group className="mb-3">
                     <Form.Label>Confirme a sua Password</Form.Label>
-                    <Form.Control type="password" name="confirmPassword" required onChange={handleChange}/>
+                    <Form.Control
+                        type="password"
+                        name="confirmPassword"
+                        required
+                        onChange={handleChange}
+                        isInvalid={passwordMatchError}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                        As passwords não coincidem.
+                    </Form.Control.Feedback>
+
                 </Form.Group>
 
                 <Form.Group className="mb-3">
@@ -133,7 +152,7 @@ function Signup() {
                     />
                 </Form.Group>
 
-                <Button variant="primary" type="submit">
+                <Button variant="primary" type="submit" disabled={passwordMatchError}>
                     Signup
                 </Button>
 
