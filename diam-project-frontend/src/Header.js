@@ -11,6 +11,7 @@ function Header() {
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isPrestador, setIsPrestador] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false);
     const navigate = useNavigate();
     // Função para verificar se o utilizador está logado
     const checkLoginStatus = async () => {
@@ -20,6 +21,8 @@ function Header() {
                 setIsLoggedIn(true);  // Utilizador está logado
                 if (response.data.tipo === 'prestador') {
                     setIsPrestador(true);
+                } else if(response.data.tipo === 'administrador') {
+                    setIsAdmin(true);
                 }
             }
         } catch (error) {
@@ -48,10 +51,13 @@ function Header() {
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
                             <Dropdown.Item onClick={() => navigate('/profile')}>Perfil</Dropdown.Item>
+                            <Dropdown.Item onClick={() => navigate('/mensagens')}>Mensagens</Dropdown.Item>
                             {isPrestador ? (
                             <Dropdown.Item onClick={() => navigate('/anuncio')}>Anunciar</Dropdown.Item>
                         ) : null}
-
+                            {isAdmin ? (
+                            <Dropdown.Item onClick={() => navigate('/admin/gerir-utilizadores')}>Gerir Utilizadores</Dropdown.Item>
+                            ) : null}
                             <Dropdown.Item
                                 onClick={async () => {
                                     try {

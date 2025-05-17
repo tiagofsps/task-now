@@ -12,4 +12,5 @@ def create_sample_users():
         else:
             print(f"Utilizador {name} já existe.")
 
+
 create_sample_users()

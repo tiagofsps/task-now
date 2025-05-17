@@ -5,10 +5,10 @@ function Footer() {
     <>
       <Nav className="justify-content-center" activeKey="/home">
         <Nav.Item>
-          <Nav.Link href="/home">Sobre nós</Nav.Link>
+          <Nav.Link href="/about">Sobre nós</Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link eventKey="link-1">Contactos</Nav.Link>
+          <Nav.Link href="/contactos">Contactos</Nav.Link>
         </Nav.Item>
       </Nav>
     </>

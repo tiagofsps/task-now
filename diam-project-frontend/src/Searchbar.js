@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MultiSelect } from 'primereact/multiselect';
 import { FloatLabel } from 'primereact/floatlabel';
-import { Button } from 'react-bootstrap';
+import { Button, Container, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
 
 function Searchbar() {
@@ -52,7 +52,6 @@ function Searchbar() {
             return;
         }
 
-        // Navegar para a página de resultados com os parâmetros da pesquisa
         navigate('/search/ver-anuncios', {
             state: {
                 tipos_servico: formData.tipos_servico,
@@ -62,46 +61,54 @@ function Searchbar() {
     };
 
     return (
-        <Navbar className="bg-body-tertiary justify-content-between">
-            <Form className="d-flex align-items-center w-100" onSubmit={handleSubmit}>
-                <div className="me-3 w-50">
-                    <FloatLabel>
-                        <label className="form-label">Tipos de Serviço</label>
-                        <MultiSelect
-                            value={formData.tipos_servico}
-                            options={tiposServico}
-                            onChange={(e) =>
-                                setFormData(prev => ({ ...prev, tipos_servico: e.value }))
-                            }
-                            placeholder="Seleciona tipos de serviço"
-                            optionLabel="label"
-                            maxSelectedLabels={3}
-                            className="w-85"
-                            display="chip"
-                        />
-                    </FloatLabel>
-                </div>
+        <Navbar className="bg-light py-4">
+            <Container>
+                <Form onSubmit={handleSubmit} className="w-100">
+                    <Row className="align-items-end">
+                        <Col md={5} className="mb-3">
+                            <FloatLabel>
+                                <label>Tipos de Serviço</label>
+                                <MultiSelect
+                                    value={formData.tipos_servico}
+                                    options={tiposServico}
+                                    onChange={(e) =>
+                                        setFormData(prev => ({ ...prev, tipos_servico: e.value }))
+                                    }
+                                    placeholder="Seleciona tipos de serviço"
+                                    optionLabel="label"
+                                    maxSelectedLabels={3}
+                                    className="w-100"
+                                    display="chip"
+                                />
+                            </FloatLabel>
+                        </Col>
 
-                <div className="me-3 w-50">
-                    <FloatLabel>
-                        <label className="form-label">Distritos</label>
-                        <MultiSelect
-                            value={formData.distritos}
-                            options={distritos}
-                            onChange={(e) =>
-                                setFormData(prev => ({ ...prev, distritos: e.value }))
-                            }
-                            placeholder="Seleciona distritos"
-                            optionLabel="label"
-                            maxSelectedLabels={3}
-                            className="w-85"
-                            display="chip"
-                        />
-                    </FloatLabel>
-                </div>
+                        <Col md={5} className="mb-3">
+                            <FloatLabel>
+                                <label>Distritos</label>
+                                <MultiSelect
+                                    value={formData.distritos}
+                                    options={distritos}
+                                    onChange={(e) =>
+                                        setFormData(prev => ({ ...prev, distritos: e.value }))
+                                    }
+                                    placeholder="Seleciona distritos"
+                                    optionLabel="label"
+                                    maxSelectedLabels={3}
+                                    className="w-100"
+                                    display="chip"
+                                />
+                            </FloatLabel>
+                        </Col>
 
-                <Button type="submit" variant="primary">Pesquisar</Button>
-            </Form>
+                        <Col md={2} className="mb-3 text-end">
+                            <Button type="submit" variant="primary" className="w-100">
+                                Pesquisar
+                            </Button>
+                        </Col>
+                    </Row>
+                </Form>
+            </Container>
         </Navbar>
     );
 }

@@ -90,3 +90,7 @@ code {
 .custom-dropdown-menu input[type="checkbox"] {
     margin-right: 8px;
 }
+
+.multiselect-container {
+  color: #212529 !important;
+}
