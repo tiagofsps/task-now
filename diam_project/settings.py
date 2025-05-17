@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'utilizadores',
     'anuncios',
+    'mensagens'
 ]
 
 MIDDLEWARE = [

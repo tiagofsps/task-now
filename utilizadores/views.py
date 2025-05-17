@@ -58,5 +58,96 @@ def user_view(request):
     except Utilizador.DoesNotExist:
         return Response({'detail': 'Utilizador não encontrado.'}, status=404)
 
+@api_view(['GET', 'PUT'])
+@permission_classes([IsAuthenticated])
+def perfil_view(request):
+    user = request.user
+
+    try:
+        utilizador = Utilizador.objects.get(user=user)
+    except Utilizador.DoesNotExist:
+        return Response({'detail': 'Utilizador não encontrado.'}, status=404)
+
+    if request.method == 'GET':
+        return Response({
+            'user': {
+                'username': user.username,
+                'email': user.email,
+                'first_name': user.first_name,
+                'last_name': user.last_name
+            },
+            'contacto': utilizador.contacto,
+            'tipo': utilizador.tipo
+        })
+
+    elif request.method == 'PUT':
+        user_data = request.data.get('user', {})
+        contacto = request.data.get('contacto', utilizador.contacto)
+
+        # Atualizar campos do user
+        for attr in ['username', 'email', 'first_name', 'last_name']:
+            if attr in user_data:
+                setattr(user, attr, user_data[attr])
+        user.save()
+
+        # Atualizar contacto
+        utilizador.contacto = contacto
+        utilizador.save()
+
+        return Response({'message': 'Perfil atualizado com sucesso.'})
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def listar_utilizadores(request):
+    utilizador = Utilizador.objects.get(user=request.user)
+    if utilizador.tipo != 'administrador':
+        return Response({'detail': 'Acesso negado.'}, status=403)
+
+    utilizadores = Utilizador.objects.select_related('user').all()
+    serializer = UtilizadorSerializer(utilizadores, many=True)
+    return Response(serializer.data)
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def editar_utilizador(request, id):
+    utilizador_req = Utilizador.objects.get(user=request.user)
+    if utilizador_req.tipo != 'administrador':
+        return Response({'detail': 'Acesso negado.'}, status=403)
+
+    try:
+        utilizador = Utilizador.objects.get(id=id)
+        user = utilizador.user
+    except Utilizador.DoesNotExist:
+        return Response({'detail': 'Utilizador não encontrado.'}, status=404)
+
+    user_data = request.data.get('user', {})
+    contacto = request.data.get('contacto', utilizador.contacto)
+    tipo = request.data.get('tipo', utilizador.tipo)
+
+    for attr in ['username', 'email', 'first_name', 'last_name']:
+        if attr in user_data:
+            setattr(user, attr, user_data[attr])
+    user.save()
+
+    utilizador.contacto = contacto
+    utilizador.tipo = tipo
+    utilizador.save()
+
+    return Response({'message': 'Utilizador atualizado com sucesso.'})
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def apagar_utilizador(request, id):
+    utilizador_req = Utilizador.objects.get(user=request.user)
+    if utilizador_req.tipo != 'administrador':
+        return Response({'detail': 'Acesso negado.'}, status=403)
+
+    try:
+        utilizador = Utilizador.objects.get(id=id)
+        user = utilizador.user
+        user.delete()
+        return Response({'message': 'Utilizador apagado com sucesso.'})
+    except Utilizador.DoesNotExist:
+        return Response({'detail': 'Utilizador não encontrado.'}, status=404)
 
 

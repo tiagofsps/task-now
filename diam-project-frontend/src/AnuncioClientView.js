@@ -115,7 +115,11 @@ function AnuncioClientView() {
                 )}
 
             </div>
-            <Button variant="primary">Enviar Mensagem</Button>
+            <Button
+                variant="primary"
+                onClick={() => navigate(`/chat/${anuncio.autor}`)}>
+                Enviar Mensagem
+            </Button>
             {' '}
             <Button variant="primary" onClick={() => navigate(-1)}>Voltar à Pesquisa</Button>
         </div>

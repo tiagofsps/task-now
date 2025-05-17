@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from "react-router-dom";
+import React, {useState, useEffect} from 'react';
+import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
 import logo from "./assets/TaskNow_logo.png";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import MultiSelectDropdown from "./MultiSelectDropdown";
 
 function CreateAnuncio() {
     const [distritos, setDistritos] = useState([]);
     const [tipos_servico, setTipos_servico] = useState([]);
-    const [dropdownOpen, setDropdownOpen] = useState(false);
     const [formError, setFormError] = useState(false);
 
     useEffect(() => {
@@ -45,29 +45,20 @@ function CreateAnuncio() {
     });
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
+        const {name, value} = e.target;
+        setFormData(prev => ({...prev, [name]: value}));
     };
 
     const handlePerfilChange = (e) => {
         const file = e.target.files[0];
         if (file) {
-            setFormData(prev => ({ ...prev, foto_perfil: file }));
+            setFormData(prev => ({...prev, foto_perfil: file}));
         }
     };
 
     const handleFotosChange = (e) => {
         const files = Array.from(e.target.files);
-        setFormData(prev => ({ ...prev, fotos: files }));
-    };
-
-    const handleTipoServicoChange = (value) => {
-        setFormData(prev => {
-            const selected = prev.tipos_servico.includes(value)
-                ? prev.tipos_servico.filter(v => v !== value)
-                : [...prev.tipos_servico, value];
-            return { ...prev, tipos_servico: selected };
-        });
+        setFormData(prev => ({...prev, fotos: files}));
     };
 
     function getCSRFToken() {
@@ -121,7 +112,7 @@ function CreateAnuncio() {
     return (
         <div className="Container p-4">
             <Link to="/">
-                <img alt="TaskNow Logo" src={logo} style={{ height: "4em" }} />
+                <img alt="TaskNow Logo" src={logo} style={{height: "4em"}}/>
             </Link>
             <div className="Subcontainer mt-4">
                 <Form onSubmit={handleSubmit}>
@@ -155,39 +146,20 @@ function CreateAnuncio() {
                             onChange={handleFotosChange}
                         />
                     </Form.Group>
-
                     <Form.Group className="mb-3">
-                        <Form.Label>Tipos de Serviço</Form.Label>
-                        <div className="dropdown">
-                            <Button
-                                className="custom-dropdown-toggle"
-                                onClick={() => setDropdownOpen(!dropdownOpen)}
-                            >
-                                {formData.tipos_servico.length > 0
-                                    ? `Selecionados: ${formData.tipos_servico.length}`
-                                    : "Seleciona tipos de serviço"}
-                            </Button>
-
-                            {dropdownOpen && (
-                                <div className="custom-dropdown-menu">
-                                    {tipos_servico.map(servico => (
-                                        <label key={servico.value}>
-                                            <input
-                                                type="checkbox"
-                                                checked={formData.tipos_servico.includes(servico.value)}
-                                                onChange={() => handleTipoServicoChange(servico.value)}
-                                            />
-                                            {servico.label}
-                                        </label>
-                                    ))}
-                                </div>
-                            )}
-                            {formError && (
-                                <div className="text-danger mt-1">Seleciona pelo menos um tipo de serviço.</div>
-                            )}
+                        <Form.Label>Tipos de serviço</Form.Label>
+                        <div className="multiselect-container" style={{position: "relative"}}>
+                            <MultiSelectDropdown
+                                options={tipos_servico}
+                                selectedValues={formData.tipos_servico}
+                                onChange={selected => setFormData(prev => ({...prev, tipos_servico: selected}))}
+                                label="tipos de serviço"
+                            />
                         </div>
+                        {formError && (
+                            <div className="text-danger mt-1">Seleciona pelo menos um tipo de serviço.</div>
+                        )}
                     </Form.Group>
-
                     <Form.Group className="mb-3">
                         <Form.Label>Distrito</Form.Label>
                         <Form.Select
