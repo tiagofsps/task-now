@@ -96,7 +96,7 @@ function AnuncioProviderView() {
                 <Row className="mb-3">
                     <Col>
                         <Badge bg="primary" className="me-2" style={{size: "20px"}}>{anuncio.titulo}</Badge>
-                        <Badge bg="secondary">{anuncio.distrito}</Badge>
+                        <Badge bg="secondary">{anuncio.distrito.nome}</Badge>
                         <> </>
                         {/* adiciona um espaço entre os badges */}
                         <Badge bg="secondary">{anuncio.contacto}</Badge>
@@ -124,15 +124,18 @@ function AnuncioProviderView() {
                     <div>
                         {/* Tipos de Serviço */}
                         <h5>{anuncio.primeiro_nome} {anuncio.ultimo_nome}</h5>
-                        {anuncio.tipo_servico && anuncio.tipo_servico.length > 0 && (
+                        {anuncio.tipos_servico && anuncio.tipos_servico.length > 0 && (
                             <div className="mb-2">
                                 <div className="mt-1">
-                                    {anuncio.tipo_servico.map((tipo, idx) => (
-                                        <Badge bg="secondary" key={idx} className="me-1">{tipo}</Badge>
+                                    {anuncio.tipos_servico.map((servico, idx) => (
+                                        <Badge bg="secondary" key={idx} className="me-1">
+                                            {servico.designacao}
+                                        </Badge>
                                     ))}
                                 </div>
                             </div>
                         )}
+
 
                         {/* Descrição */}
                         {anuncio.descricao && (

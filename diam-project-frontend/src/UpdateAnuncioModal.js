@@ -1,100 +1,113 @@
-import { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import axios from 'axios';
+import MultiSelectDropdown from "./MultiSelectDropdown";
 
-function UpdateAnuncioModal({ show, onHide, anuncio }) {
+function UpdateAnuncioModal({show, onHide, anuncio}) {
+    const [distritos, setDistritos] = useState([]);
+    const [tipos_servico, setTipos_servico] = useState([]);
     const [formData, setFormData] = useState({
         titulo: '',
         descricao: '',
         distrito: '',
         contacto: '',
-        tipo_servico: [],
-        imagem_perfil: '',  // Este campo será mantido vazio
-        imagens: [],  // Galeria de imagens vazia
+        tipos_servico: [],
+        imagem_perfil: '',
+        imagens: [],
     });
 
     useEffect(() => {
-        if (anuncio) {
+        console.log("Carregando distritos e tipos de serviço...");
+        axios.get("http://127.0.0.1:8000/anuncios/api/distritos/")
+            .then((res) => {
+                console.log("Distritos recebidos:", res.data);
+                setDistritos(res.data);
+            })
+            .catch((err) => console.error("Erro ao obter distritos:", err));
+
+        axios.get("http://127.0.0.1:8000/anuncios/api/tipos_servico/")
+            .then((res) => {
+                console.log("Tipos de serviço recebidos:", res.data);
+                const options = res.data.map(servico => ({
+                    value: servico.id,
+                    label: servico.designacao
+                }));
+                setTipos_servico(options);
+            })
+            .catch((err) => console.error("Erro ao obter tipos de serviço:", err));
+    }, []);
+
+    useEffect(() => {
+        if (show && anuncio) {
             setFormData({
                 titulo: anuncio.titulo || '',
                 descricao: anuncio.descricao || '',
-                distrito: anuncio.distrito || '',
+                distrito: anuncio.distrito?.id || '',
                 contacto: anuncio.contacto || '',
-                tipo_servico: anuncio.tipo_servico || [],
-                imagem_perfil: '',  // Foto vazia para o utilizador preencher
-                imagens: anuncio.imagens || [],  // Preencher a galeria de imagens
+                tipos_servico: anuncio.tipos_servico?.map(ts => ts.id) || [],
+                imagem_perfil: '',
+                imagens: [],
             });
         }
-    }, [anuncio]);
+    }, [show, anuncio]);
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
+        const {name, value} = e.target;
+        console.log(`Campo alterado: ${name} = ${value}`);
+        setFormData(prev => ({...prev, [name]: value}));
     };
 
-    const handleImageChange = (e) => {
-        const files = e.target.files;
-        setFormData({
-            ...formData,
-            imagens: [...files], // Atualiza as imagens da galeria com os novos arquivos
-        });
+    const handleFileChange = (e) => {
+        console.log("Novas imagens selecionadas:", e.target.files);
+        setFormData(prev => ({...prev, imagens: Array.from(e.target.files)}));
     };
 
-    function getCSRFToken() {
-        return document.cookie.split('; ').find(row => row.startsWith('csrftoken='))?.split('=')[1];
-    }
-
-    const csrfToken = getCSRFToken();
+    const getCSRFToken = () =>
+        document.cookie.split('; ').find(row => row.startsWith('csrftoken='))?.split('=')[1];
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log("A submeter o formulário com os dados:", formData);
 
         const formPayload = new FormData();
-
-        // Adiciona os dados do formData ao FormData
         formPayload.append('titulo', formData.titulo);
         formPayload.append('descricao', formData.descricao);
-        formPayload.append('distrito', formData.distrito.id);
+        formPayload.append('distrito', formData.distrito);
         formPayload.append('contacto', formData.contacto);
-        formPayload.append('tipo_servico', formData.tipo_servico.id);
+        formData.tipos_servico.forEach(id => {
+            console.log("Adicionando tipo_servico ao formData:", id);
+            formPayload.append('tipo_servico', id);
+        });
 
-        // Adiciona a imagem de perfil apenas se houver
         if (formData.imagem_perfil) {
+            console.log("Adicionando imagem_perfil ao formData:", formData.imagem_perfil);
             formPayload.append('imagem_perfil', formData.imagem_perfil);
         }
 
-        // Adiciona as imagens da galeria se houver
-        if (formData.imagens.length > 0) {
-            Array.from(formData.imagens).forEach((imagem, index) => {
-                formPayload.append(`imagens[${index}]`, imagem);
-            });
-        }
+        formData.imagens.forEach((img, index) => {
+            console.log(`Adicionando imagem ${index} ao formData:`, img);
+            formPayload.append('imagens', img);
+        });
 
         try {
-            // Envia a requisição PATCH para atualizar o anúncio
-            await axios.put(
+            const response = await axios.put(
                 `http://localhost:8000/anuncios/api/anuncio/${anuncio.id}/atualizar/`,
                 formPayload,
                 {
                     headers: {
-                        "X-CSRFToken": csrfToken,
+                        "X-CSRFToken": getCSRFToken(),
+                        'Content-Type': 'multipart/form-data',
                     },
                     withCredentials: true
                 }
             );
-            console.log("Anúncio atualizado com sucesso!");
-            onHide();  // Fecha o modal após a atualização
+            console.log("Resposta da API ao atualizar anúncio:", response.data);
+            onHide();
+            window.location.reload();
         } catch (error) {
-            if (error.response) {
-                console.error("Erro da API:", error.response.status, error.response.data);
-            } else {
-                console.error("Erro de rede ou desconhecido:", error.message);
-            }
+            console.error("Erro ao atualizar anúncio:", error.response || error);
         }
     };
 
@@ -125,14 +138,19 @@ function UpdateAnuncioModal({ show, onHide, anuncio }) {
                         />
                     </Form.Group>
 
-                    <Form.Group controlId="distrito" className="mt-3">
+                    <Form.Group className="mt-3">
                         <Form.Label>Distrito</Form.Label>
-                        <Form.Control
-                            type="text"
+                        <Form.Select
                             name="distrito"
+                            required
                             value={formData.distrito}
                             onChange={handleChange}
-                        />
+                        >
+                            <option value="" disabled>Seleciona um distrito</option>
+                            {distritos.map(d => (
+                                <option key={d.id} value={d.id}>{d.nome}</option>
+                            ))}
+                        </Form.Select>
                     </Form.Group>
 
                     <Form.Group controlId="contacto" className="mt-3">
@@ -145,42 +163,42 @@ function UpdateAnuncioModal({ show, onHide, anuncio }) {
                         />
                     </Form.Group>
 
-                    <Form.Group controlId="tipo_servico" className="mt-3">
-                        <Form.Label>Tipo de Serviço</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="tipo_servico"
-                            value={formData.tipo_servico.join(', ')}  // Exibe os tipos como uma lista
-                            onChange={(e) => setFormData({
-                                ...formData,
-                                tipo_servico: e.target.value.split(',').map(s => s.trim())  // Atualiza como um array
-                            })}
+                    <Form.Group className="mt-3">
+                        <Form.Label>Tipos de Serviço</Form.Label>
+                        <MultiSelectDropdown
+                            options={tipos_servico}
+                            selectedValues={formData.tipos_servico}
+                            onChange={selected => {
+                                console.log("Tipos de serviço selecionados:", selected);
+                                setFormData(prev => ({...prev, tipos_servico: selected}));
+                            }}
+                            label="tipos de serviço"
                         />
                     </Form.Group>
 
-                    {/* Foto de perfil, deixada vazia para o utilizador preencher se desejar */}
                     <Form.Group controlId="imagem_perfil" className="mt-3">
-                        <Form.Label>Imagem de Perfil (Deixe em branco para manter a imagem atual)</Form.Label>
+                        <Form.Label>Foto de Perfil</Form.Label>
                         <Form.Control
-                            type="text"
+                            type="file"
                             name="imagem_perfil"
-                            value={formData.imagem_perfil}
-                            onChange={handleChange}
+                            onChange={(e) => {
+                                console.log("Imagem de perfil selecionada:", e.target.files[0]);
+                                setFormData(prev => ({...prev, imagem_perfil: e.target.files[0]}));
+                            }}
                         />
                     </Form.Group>
 
-                    {/* Galeria de Imagens - Novo campo */}
                     <Form.Group controlId="imagens" className="mt-3">
-                        <Form.Label>Imagens da Galeria (Deixe em branco para manter as imagens atuais)</Form.Label>
+                        <Form.Label>Fotos da Galeria</Form.Label>
                         <Form.Control
                             type="file"
                             name="imagens"
                             multiple
-                            onChange={handleImageChange}
+                            onChange={handleFileChange}
                         />
                     </Form.Group>
 
-                    <Button variant="primary" type="submit" className="mt-3">
+                    <Button variant="primary" type="submit" className="mt-4">
                         Guardar alterações
                     </Button>
                 </Form>
