@@ -4,6 +4,7 @@ import axios from 'axios';
 import {Container, Row, Col, ListGroup, ListGroupItem, Image, Button} from 'react-bootstrap';
 import Header from "./Header";
 import Footer from "./Footer";
+import Searchbar from "./Searchbar";
 
 function Search() {
     const location = useLocation();
@@ -15,8 +16,8 @@ function Search() {
         if (tipos_servico.length === 0 || distritos.length === 0) return;
 
         const params = new URLSearchParams();
-        tipos_servico.forEach(tipo => params.append('tipos_servico', tipo));
-        distritos.forEach(distrito => params.append('distritos', distrito));
+        tipos_servico.forEach(tipo => params.append('tiposervico_id', tipo));
+        distritos.forEach(distrito => params.append('distrito_id', distrito));
 
         axios.get(`http://127.0.0.1:8000/anuncios/api/anuncio/search/?${params.toString()}`)
             .then(response => {
@@ -30,6 +31,7 @@ function Search() {
     return (
         <>
             <Header/>
+            <Searchbar/>
             <Container className="mt-4">
                 <Row>
                     {anuncios.length === 0 ? (
@@ -50,10 +52,9 @@ function Search() {
                                             <div>
                                                 <strong>{anuncio.titulo}</strong><br/>
                                                 {anuncio.primeiro_nome} {anuncio.ultimo_nome}<br/>
-                                                <span>{(anuncio.tipos_servico || []).join(', ')}</span><br/>
-                                                <span>{anuncio.distrito}</span>
+                                                <strong>{anuncio.tipos_servico.map(tipo => tipo.designacao).join(', ')}</strong><br/>
+                                                <span>{anuncio.distrito.nome}</span>
                                             </div>
-
                                         </ListGroupItem>
                                         <Button variant="primary"
                                                 onClick={() => navigate(`/search/ver-anuncios/detalhes-anuncio/${anuncio.id}`)}>

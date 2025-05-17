@@ -22,8 +22,9 @@ function DeleteAnuncioModal({ show, onHide, anuncioId }) {
         },
         withCredentials: true,
       });
-      onHide(); // Fecha o modal
-      navigate('/anuncio'); // Redireciona
+      onHide();
+      window.location.reload();
+      navigate('/anuncio');
     } catch (error) {
       if (error.response) {
         console.error('Erro ao apagar:', error.response.status, error.response.data);
@@ -34,7 +35,7 @@ function DeleteAnuncioModal({ show, onHide, anuncioId }) {
   };
 
   return (
-    <Modal show={show} onHide={onHide}>
+    <Modal show={show} onHide={onHide} centered>
       <Modal.Header closeButton>
         <Modal.Title>Eliminar Anúncio</Modal.Title>
       </Modal.Header>
@@ -45,7 +46,12 @@ function DeleteAnuncioModal({ show, onHide, anuncioId }) {
       </Modal.Body>
 
       <Modal.Footer>
-        <Button variant="danger" onClick={handleDelete}>Eliminar</Button>
+        <Button variant="secondary" onClick={onHide}>
+          Cancelar
+        </Button>
+        <Button variant="danger" onClick={handleDelete}>
+          Eliminar
+        </Button>
       </Modal.Footer>
     </Modal>
   );

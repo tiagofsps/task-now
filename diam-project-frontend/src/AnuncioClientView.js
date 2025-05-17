@@ -47,7 +47,7 @@ function AnuncioClientView() {
                 <Row className="mb-3">
                     <Col>
                         <Badge bg="primary" className="me-2">{anuncio.titulo}</Badge>
-                        <Badge bg="secondary" className="me-2">{anuncio.distrito}</Badge>
+                        <Badge bg="secondary" className="me-2">{anuncio.distrito.nome}</Badge>
                         <Badge bg="secondary">{anuncio.contacto}</Badge>
                     </Col>
                 </Row>
@@ -74,7 +74,9 @@ function AnuncioClientView() {
                             <div className="mb-2">
                                 <div className="mt-1">
                                     {anuncio.tipos_servico.map((tipo, idx) => (
-                                        <Badge bg="secondary" key={idx} className="me-1">{tipo}</Badge>
+                                        <Badge bg="secondary" key={idx} className="me-1">
+                                            {tipo.designacao}
+                                        </Badge>
                                     ))}
                                 </div>
                             </div>

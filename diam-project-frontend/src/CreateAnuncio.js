@@ -41,7 +41,7 @@ function CreateAnuncio() {
         tipos_servico: [],
         distrito: "",
         descricao: "",
-        fotos: []
+        imagens: []
     });
 
     const handleChange = (e) => {
@@ -92,7 +92,7 @@ function CreateAnuncio() {
         formPayload.append("descricao", formData.descricao);
         formPayload.append("distrito", formData.distrito);
         formData.tipos_servico.forEach((tipo) => formPayload.append("tipo_servico", tipo));
-        formData.fotos.forEach((foto) => formPayload.append("images", foto));
+        formData.imagens.forEach((img) => formPayload.append("images", img));
 
         const csrfToken = getCSRFToken();
 
