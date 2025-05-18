@@ -5,6 +5,7 @@ from rest_framework import status
 from .models import Anuncio, Distrito, TipoServico
 from .serializers import AnuncioSerializer, AnuncioCreateUpdateSerializer, DistritoSerializer, TipoServicoSerializer
 
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def listar_anuncio_utilizador(request):
@@ -20,6 +21,7 @@ def listar_anuncio_utilizador(request):
 
 from .models import ImagemAnuncio
 from .serializers import ImagemAnuncioSerializer
+
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -39,6 +41,7 @@ def criar_anuncio(request):
 
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 @api_view(['PUT', 'PATCH'])
 @permission_classes([IsAuthenticated])
 def atualizar_anuncio(request, anuncio_id):
@@ -49,11 +52,13 @@ def atualizar_anuncio(request, anuncio_id):
         return Response({'erro': 'Anúncio não encontrado.'}, status=status.HTTP_404_NOT_FOUND)
 
     partial = request.method == 'PATCH'
-    serializer = AnuncioCreateUpdateSerializer(anuncio, data=request.data, partial=partial, context={'request': request})
+    serializer = AnuncioCreateUpdateSerializer(anuncio, data=request.data, partial=partial,
+                                               context={'request': request})
     if serializer.is_valid():
         anuncio = serializer.save()
         return Response(AnuncioSerializer(anuncio).data)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(['DELETE'])
 @permission_classes([IsAuthenticated])
@@ -66,6 +71,7 @@ def apagar_anuncio(request, anuncio_id):
     except Anuncio.DoesNotExist:
         return Response({'erro': 'Anúncio não encontrado.'}, status=status.HTTP_404_NOT_FOUND)
 
+
 @api_view(['GET'])
 def anuncio_detalhes(request, anuncio_id):
     """Retorna os detalhes de um anúncio específico"""
@@ -77,17 +83,60 @@ def anuncio_detalhes(request, anuncio_id):
     serializer = AnuncioSerializer(anuncio)
     return Response(serializer.data)
 
+
 @api_view(['GET'])
 def listar_distritos(request):
     distritos = Distrito.objects.all()
     serializer = DistritoSerializer(distritos, many=True)
     return Response(serializer.data)
 
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def criar_tipo_servico(request):
+    """Cria um novo tipo de serviço"""
+    serializer = TipoServicoSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['PUT', 'PATCH'])
+@permission_classes([IsAuthenticated])
+def atualizar_tipo_servico(request, tiposervico_id):
+    """Atualiza um tipo de serviço existente"""
+    try:
+        tipo_servico = TipoServico.objects.get(id=tiposervico_id)
+    except TipoServico.DoesNotExist:
+        return Response({'erro': 'Tipo de serviço não encontrado.'}, status=status.HTTP_404_NOT_FOUND)
+
+    partial = request.method == 'PATCH'
+    serializer = TipoServicoSerializer(tipo_servico, data=request.data, partial=partial)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def apagar_tipo_servico(request, tiposervico_id):
+    """Apaga um tipo de serviço existente"""
+    try:
+        tipo_servico = TipoServico.objects.get(id=tiposervico_id)
+        tipo_servico.delete()
+        return Response({'mensagem': 'Tipo de serviço apagado com sucesso.'}, status=status.HTTP_204_NO_CONTENT)
+    except TipoServico.DoesNotExist:
+        return Response({'erro': 'Tipo de serviço não encontrado.'}, status=status.HTTP_404_NOT_FOUND)
+
+
 @api_view(['GET'])
 def listar_tipos_servico(request):
     servicos = TipoServico.objects.all()
     serializer = TipoServicoSerializer(servicos, many=True)
     return Response(serializer.data)
+
 
 @api_view(['GET'])
 def anuncio_search(request):

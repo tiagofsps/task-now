@@ -12,6 +12,7 @@ import ChatWrapper from "./ChatWrapper";
 import MensagensLista from "./MensagensLista";
 import Profile from './Profile';
 import ManageUsers from "./ManageUsers";
+import ManageTiposServicos from "./ManageTiposServico";
 import {PrimeReactProvider, PrimeReactContext} from 'primereact/api';
 import "primereact/resources/themes/lara-light-blue/theme.css";
 import "primereact/resources/primereact.min.css";
@@ -35,6 +36,7 @@ function App() {
                 <Route path="/mensagens" element={<MensagensLista />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/admin/gerir-utilizadores" element={<ManageUsers/>}/>
+                <Route path="/admin/gerir-servicos" element={<ManageTiposServicos/>}/>
             </Routes>
         </PrimeReactProvider>
     );
