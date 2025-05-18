@@ -2,7 +2,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Anuncio, Distrito, TipoServico
+from .models import Anuncio, Distrito, TipoServico, ImagemAnuncio
 from .serializers import AnuncioSerializer, AnuncioCreateUpdateSerializer, DistritoSerializer, TipoServicoSerializer
 
 
@@ -17,11 +17,6 @@ def listar_anuncio_utilizador(request):
 
     serializer = AnuncioSerializer(anuncios.first())  # Retorna o primeiro anúncio
     return Response(serializer.data)
-
-
-from .models import ImagemAnuncio
-from .serializers import ImagemAnuncioSerializer
-
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -47,7 +42,7 @@ def criar_anuncio(request):
 def atualizar_anuncio(request, anuncio_id):
     """Atualiza um anúncio existente do utilizador"""
     try:
-        anuncio = Anuncio.objects.get(id=anuncio_id, autor=request.user)
+        anuncio = Anuncio.objects.get(id=anuncio_id)
     except Anuncio.DoesNotExist:
         return Response({'erro': 'Anúncio não encontrado.'}, status=status.HTTP_404_NOT_FOUND)
 
@@ -65,7 +60,7 @@ def atualizar_anuncio(request, anuncio_id):
 def apagar_anuncio(request, anuncio_id):
     """Apaga um anúncio existente do utilizador"""
     try:
-        anuncio = Anuncio.objects.get(id=anuncio_id, autor=request.user)
+        anuncio = Anuncio.objects.get(id=anuncio_id)
         anuncio.delete()
         return Response({'mensagem': 'Anúncio apagado com sucesso.'}, status=status.HTTP_204_NO_CONTENT)
     except Anuncio.DoesNotExist:
@@ -151,5 +146,11 @@ def anuncio_search(request):
     if tiposervico_ids:
         anuncios = anuncios.filter(tipo_servico__id__in=tiposervico_ids).distinct()
 
+    serializer = AnuncioSerializer(anuncios, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def listar_anuncios(request):
+    anuncios = Anuncio.objects.all()
     serializer = AnuncioSerializer(anuncios, many=True)
     return Response(serializer.data)

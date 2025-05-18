@@ -60,6 +60,7 @@ function Header() {
                                     <>
                                         <Dropdown.Item onClick={() => navigate('/admin/gerir-utilizadores')}>Gerir Utilizadores</Dropdown.Item>
                                         <Dropdown.Item onClick={() => navigate('/admin/gerir-servicos')}>Gerir Serviços</Dropdown.Item>
+                                        <Dropdown.Item onClick={() => navigate('/admin/gerir-anuncios')}>Gerir Anuncios</Dropdown.Item>
                                     </>
                                     ) : null}
                                 <Dropdown.Item

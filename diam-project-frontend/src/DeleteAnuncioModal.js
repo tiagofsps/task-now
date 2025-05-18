@@ -24,7 +24,8 @@ function DeleteAnuncioModal({ show, onHide, anuncioId }) {
       });
       onHide();
       window.location.reload();
-      navigate('/anuncio');
+      // navigate('/anuncio');
+      navigate(-1);
     } catch (error) {
       if (error.response) {
         console.error('Erro ao apagar:', error.response.status, error.response.data);

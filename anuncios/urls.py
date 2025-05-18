@@ -3,6 +3,7 @@ from . import views
 
 urlpatterns = [
     path('api/anuncio/listar_anuncio_utilizador/', views.listar_anuncio_utilizador, name='listar_anuncio_utilizador'),
+    path('api/anuncio/listar_anuncios/', views.listar_anuncios, name='listar_anuncios'),
     path('api/anuncio/criar/', views.criar_anuncio, name='criar_anuncio'),
     path('api/anuncio/<int:anuncio_id>/atualizar/', views.atualizar_anuncio, name='atualizar_anuncio'),
     path('api/anuncio/<int:anuncio_id>/apagar/', views.apagar_anuncio, name='apagar_anuncio'),
