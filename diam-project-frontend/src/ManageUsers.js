@@ -2,7 +2,7 @@ import Header from './Header';
 import Footer from './Footer';
 import CreateUserModal from "./CreateUserModal";
 import UpdateUserModal from "./UpdateUserModal";
-import DeleteUserModal from "./DeleteUserModal";  // <---- IMPORTAR modal de apagar
+import DeleteUserModal from "./DeleteUserModal";
 import ErrorPagePermissions from "./ErrorPagePermissions";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";

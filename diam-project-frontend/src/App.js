@@ -13,6 +13,7 @@ import MensagensLista from "./MensagensLista";
 import Profile from './Profile';
 import ManageUsers from "./ManageUsers";
 import ManageTiposServicos from "./ManageTiposServico";
+import ManageAnuncios from "./ManageAnuncios";
 import {PrimeReactProvider, PrimeReactContext} from 'primereact/api';
 import "primereact/resources/themes/lara-light-blue/theme.css";
 import "primereact/resources/primereact.min.css";
@@ -37,6 +38,7 @@ function App() {
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/admin/gerir-utilizadores" element={<ManageUsers/>}/>
                 <Route path="/admin/gerir-servicos" element={<ManageTiposServicos/>}/>
+                <Route path="/admin/gerir-anuncios" element={<ManageAnuncios/>}/>
             </Routes>
         </PrimeReactProvider>
     );
