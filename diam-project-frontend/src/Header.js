@@ -21,7 +21,7 @@ function Header() {
                 setIsLoggedIn(true);  // Utilizador está logado
                 if (response.data.tipo === 'prestador') {
                     setIsPrestador(true);
-                } else if(response.data.tipo === 'administrador') {
+                } else if (response.data.tipo === 'administrador') {
                     setIsAdmin(true);
                 }
             }
@@ -35,55 +35,60 @@ function Header() {
     }, []);
 
     return (
-        <Navbar className="bg-body-tertiary">
-            <Container>
-                <Navbar.Brand href="/">
-                    <img
-                        alt="TaskNow Logo"
-                        src={logo}
-                        style={{height: '4em'}}
-                    />
-                </Navbar.Brand>
-                {isLoggedIn ? (
-                    <Dropdown>
-                        <Dropdown.Toggle variant="primary">
-                            A tua conta
-                        </Dropdown.Toggle>
-                        <Dropdown.Menu>
-                            <Dropdown.Item onClick={() => navigate('/profile')}>Perfil</Dropdown.Item>
-                            <Dropdown.Item onClick={() => navigate('/mensagens')}>Mensagens</Dropdown.Item>
-                            {isPrestador ? (
-                            <Dropdown.Item onClick={() => navigate('/anuncio')}>Anunciar</Dropdown.Item>
-                        ) : null}
-                            {isAdmin ? (
-                            <Dropdown.Item onClick={() => navigate('/admin/gerir-utilizadores')}>Gerir Utilizadores</Dropdown.Item>
-                            ) : null}
-                            <Dropdown.Item
-                                onClick={async () => {
-                                    try {
-                                        await axios.get('http://localhost:8000/utilizadores/api/logout/', {
-                                            withCredentials: true,
-                                        });
-                                        navigate('/');
-                                        window.location.reload();
-                                    } catch (error) {
-                                        alert('Erro ao efetuar logout.');
-                                        console.error(error);
-                                    }
-                                }}
-                            >
-                                Logout
-                            </Dropdown.Item>
+        <>
+            <Navbar className="bg-body-tertiary">
+                <Container>
+                    <Navbar.Brand href="/">
+                        <img
+                            alt="TaskNow Logo"
+                            src={logo}
+                            style={{height: '4em'}}
+                        />
+                    </Navbar.Brand>
+                    {isLoggedIn ? (
+                        <Dropdown>
+                            <Dropdown.Toggle variant="primary">
+                                A tua conta
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu>
+                                <Dropdown.Item onClick={() => navigate('/profile')}>Perfil</Dropdown.Item>
+                                <Dropdown.Item onClick={() => navigate('/mensagens')}>Mensagens</Dropdown.Item>
+                                {isPrestador ? (
+                                    <Dropdown.Item onClick={() => navigate('/anuncio')}>Anunciar</Dropdown.Item>
+                                ) : null}
+                                {isAdmin ? (
+                                    <>
+                                        <Dropdown.Item onClick={() => navigate('/admin/gerir-utilizadores')}>Gerir Utilizadores</Dropdown.Item>
+                                        <Dropdown.Item onClick={() => navigate('/admin/gerir-servicos')}>Gerir Serviços</Dropdown.Item>
+                                    </>
+                                    ) : null}
+                                <Dropdown.Item
+                                    onClick={async () => {
+                                        try {
+                                            await axios.get('http://localhost:8000/utilizadores/api/logout/', {
+                                                withCredentials: true,
+                                            });
+                                            navigate('/');
+                                            window.location.reload();
+                                        } catch (error) {
+                                            alert('Erro ao efetuar logout.');
+                                            console.error(error);
+                                        }
+                                    }}
+                                >
+                                    Logout
+                                </Dropdown.Item>
 
-                        </Dropdown.Menu>
-                    </Dropdown>
-                ) : (
-                    <Button variant="primary" onClick={() => navigate('/login')}>
-                        Login
-                    </Button>
-                )}
-            </Container>
-        </Navbar>
+                            </Dropdown.Menu>
+                        </Dropdown>
+                    ) : (
+                        <Button variant="primary" onClick={() => navigate('/login')}>
+                            Login
+                        </Button>
+                    )}
+                </Container>
+            </Navbar>
+        </>
     );
 }
 
