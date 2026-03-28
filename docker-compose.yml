@@ -32,6 +32,7 @@ services:
       - /app/node_modules
     ports:
       - "127.0.0.1:3000:3000"
+    command: sh -c "npm install && npm start"
     environment:
       - WDS_SOCKET_PORT=0
       - CHOKIDAR_USEPOLLING=true
