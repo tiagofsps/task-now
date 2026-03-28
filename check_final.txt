@@ -1,0 +1,9 @@
+SystemCheckError: System check identified some issues:
+
+ERRORS:
+anuncios.Anuncio.imagem_perfil: (fields.E210) Cannot use ImageField because Pillow is not installed.
+	HINT: Get Pillow at https://pypi.org/project/Pillow/ or run command "python -m pip install Pillow".
+anuncios.ImagemAnuncio.imagem: (fields.E210) Cannot use ImageField because Pillow is not installed.
+	HINT: Get Pillow at https://pypi.org/project/Pillow/ or run command "python -m pip install Pillow".
+
+System check identified 2 issues (0 silenced).
