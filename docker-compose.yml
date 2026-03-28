@@ -10,7 +10,34 @@ services:
       - POSTGRES_USER=tasknow_user
       - POSTGRES_PASSWORD=tasknow_password
     ports:
-      - "5432:5432"
+      - "127.0.0.1:5432:5432"
+    restart: always
+
+  backend:
+    build: .
+    volumes:
+      - .:/app
+    ports:
+      - "127.0.0.1:8000:8000"
+    environment:
+      - POSTGRES_HOST=db
+    depends_on:
+      - db
+    restart: always
+
+  frontend:
+    build: frontend/
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "127.0.0.1:3000:3000"
+    environment:
+      - WDS_SOCKET_PORT=0
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+    depends_on:
+      - backend
     restart: always
 
 volumes:
