@@ -13,13 +13,23 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Install python dependencies from the single requirements.txt file
+# Install python dependencies
 COPY requirements.txt /app/
 RUN pip install --upgrade pip && \
     pip install -r requirements.txt
 
-# Copy project
+# Copy project (this will be overlaid by volume in dev, but good for build)
 COPY . /app/
 
-# We'll run server externally via docker-compose command, but provide a default
+# Copy entrypoint script and set permissions
+COPY entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
+
+# Port for Django
+EXPOSE 8000
+
+# Use entrypoint script to automate migrations/seeding
+ENTRYPOINT ["/app/entrypoint.sh"]
+
+# Default command
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

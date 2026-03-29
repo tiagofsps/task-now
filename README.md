@@ -4,52 +4,25 @@
 
 ---
 
-## 🌟 Key Features
-
-- **User Roles & Authentication**: Secure sign-up and login specialized for both Service Providers and Clients.
-- **Service Listings (Anúncios)**: Comprehensive advertisement management allowing providers to showcase their skills and clients to find the exact help they need.
-- **Internal Messaging**: Integrated chat and messaging system allowing direct communication between clients and professionals.
-- **Categorized Services**: Intuitive filtering and management of different service types (e.g., Plumbing, Electrical, Carpentry).
-- **Interactive UI/UX**: A modern, responsive frontend built with React, featuring dynamic carousels, clean modals, and a seamless user journey.
-- **Admin & Management Dashboard**: Interfaces for managing users, advertisements, and service categories ensuring the platform remains clean and secure.
-
----
-
 ## 🛠️ Technology Stack
 
-TaskNow adopts a robust, decoupled architecture using an industry-standard modern technology stack:
+TaskNow adopts a modern, containerized architecture:
 
-### Backend
-- **Framework**: [Django](https://www.djangoproject.com/) & [Django REST Framework (DRF)](https://www.django-rest-framework.org/)
-- **Language**: Python 3
-- **Database**: SQLite (Development)
-- **Architecture Features**: Robust API endpoint design, Object-Relational Mapping (ORM), session management, and media handling (Pillow).
-
-### Frontend
-- **Library**: [React.js](https://reactjs.org/)
-- **Language**: JavaScript (ES6+), HTML5, CSS3
-- **Architecture Features**: Component-based UI, intuitive state management, responsive flexbox/grid layouts, and seamless asynchronous API integration.
+- **Frontend**: [React.js](https://reactjs.org/) (Client-side UI)
+- **Backend**: [Django](https://www.djangoproject.com/) & [Django REST Framework (DRF)](https://www.django-rest-framework.org/)
+- **Database**: [PostgreSQL](https://www.postgresql.org/) (Data storage)
+- **Orchestration**: [Docker](https://www.docker.com/) & [Docker Compose](https://docs.docker.com/compose/)
 
 ---
 
-## 📂 Project Structure
+## 🚀 Quick Start
 
-The repository is modularly structured to separate the client-side presentation from the server-side logic:
-
-- `/backend`: Contains the Django application, API routes, database models (`utilizadores`, `anuncios`, `mensagens`), and server logic.
-- `/frontend`: Contains the React application, React components (`src/`), assets, and styling (`index.css`).
-
----
-
-## 🚀 Getting Started
-
-Follow these instructions to set up the project locally on your machine for development and testing.
+The entire project is containerized, making it easy to set up with a single command.
 
 ### Prerequisites
 
-- Python 3.8+
-- Node.js (v14+) & npm
-- Git
+- [Docker](https://www.docker.com/get-started)
+- [Docker Compose](https://docs.docker.com/compose/install/)
 
 ### 1. Clone the Repository
 
@@ -58,55 +31,42 @@ git clone https://github.com/tiagofsps/TaskNow.git
 cd TaskNow
 ```
 
-### 2. Backend Setup (Django)
+### 2. Launch the Application
 
-Open your terminal and execute:
-
-```bash
-# Navigate to the backend directory
-cd backend
-
-# Create a virtual environment
-python -m venv venv
-
-# Activate the virtual environment
-# On Windows:
-venv\Scripts\activate
-# On macOS/Linux:
-source venv/bin/activate
-
-# Install required Python packages
-pip install django djangorestframework pillow django-cors-headers
-
-# Run database migrations to set up the local SQLite database
-python manage.py migrate
-
-# Start the Django development server (Defaults to http://localhost:8000)
-python manage.py runserver
-```
-
-### 3. Frontend Setup (React)
-
-Open a **new terminal window/tab**, and execute:
+Run the following command to build the images, start the containers, and initialize the database:
 
 ```bash
-# Navigate to the frontend directory
-cd frontend
-
-# Install all Node dependencies
-npm install
-
-# Start the React development server (Defaults to http://localhost:3000)
-npm start
+docker-compose up --build
 ```
+
+**Wait, what's happening?**
+- **PostgreSQL** starts and initializes.
+- **Django** automatically runs migrations and seeds the initial data (Users, Districts, etc.) from `datadump.json`.
+- **React** starts the development server with hot-reload enabled.
+
+### 3. Access the Services
+
+- **Frontend**: [http://localhost:3000](http://localhost:3000)
+- **Backend API**: [http://localhost:8000](http://localhost:8000)
+- **Django Admin**: [http://localhost:8000/admin](http://localhost:8000/admin)
 
 ---
 
-## 📈 Future Roadmap
+## 📂 Project Structure
 
-- Integration with a PostgreSQL database for production deployment.
-- Implementation of a rating and review system for service providers.
-- Advanced geographical search and filtering (e.g., "Find services near me").
+- `/backend`: Django project files, API routes, and database models.
+- `/frontend`: React application using isolated dependencies for consistent development.
+- `docker-compose.yml`: Orchestration file for the frontend, backend, and db services.
+- `entrypoint.sh`: Automated startup script for database initialization and seeding.
+
+---
+
+## 🌟 Key Features
+
+- **User Roles**: Sign-up and login specialized for both Service Providers and Clients.
+- **Service Listings**: Comprehensive advertisement management for providers.
+- **Direct Messaging**: Integrated chat system for real-time communication.
+- **Automated Setup**: One-command initialization with smart data seeding.
 
 ---
 

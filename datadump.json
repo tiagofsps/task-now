@@ -1,0 +1,742 @@
+[
+{
+    "model": "auth.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$f5sFGnFMwGW5PDy2e2Ckpp$uEnwJEgOGEp3tZEceUeiUBM7ouV452rB5CXLpCQUKQc=",
+        "last_login": "2025-05-17T22:15:01.378Z",
+        "is_superuser": true,
+        "username": "tfsps",
+        "first_name": "Tiago",
+        "last_name": "Pires",
+        "email": "tiago@tasknow.pt",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-05-17T10:59:47.258Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$0jhHXF1gxI0VJVHvYsnSou$oqJgKgfHyuaRe/jAZQR8nkg0nRY/M8GOhABn7mhfXdo=",
+        "last_login": "2025-05-17T14:28:06.347Z",
+        "is_superuser": false,
+        "username": "rmgso",
+        "first_name": "Rodrigo",
+        "last_name": "Sampaio",
+        "email": "rodrigo@gmail.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-05-17T10:59:48.502Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$roXdGT3PZtMhonNkwD1DDd$J8g9d9sCEaIMp0Z+hmSfBnbPoUq11w7TB4kWk8hZT+E=",
+        "last_login": "2025-05-18T18:48:09.328Z",
+        "is_superuser": false,
+        "username": "adlfc",
+        "first_name": "Adolfo",
+        "last_name": "Calado",
+        "email": "adolfo@yahoo.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-05-17T10:59:49.720Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$PRi0HSmCdWnyTzfHgUOgOk$KvAhEMCyZpkTZVJUsAkkEpUjYGkJRpL2bQoEeFPX1aI=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "tndr",
+        "first_name": "Tony",
+        "last_name": "do Rock",
+        "email": "tony@outlook.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-05-17T10:59:50.823Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$RptZfftmeRQISfZXpU0Qto$7B/ibl7eadLya3NWGo+Ke8MheicXx5bRNX0zpqcLels=",
+        "last_login": "2025-05-18T18:21:47.373Z",
+        "is_superuser": false,
+        "username": "mcorreia",
+        "first_name": "Mßrio",
+        "last_name": "Correia",
+        "email": "mcorreia@gmail.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-05-17T15:47:49.232Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$KIMCWFuyVCqAwdUtt8WACR$60tj5AyvW6rIIntLso5IaO6AcD3KmqoimvlQhMhfEjo=",
+        "last_login": "2025-05-18T18:51:05.113Z",
+        "is_superuser": false,
+        "username": "rslva",
+        "first_name": "Ricardo",
+        "last_name": "Silva",
+        "email": "rslva@outlook.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-05-17T16:03:24.399Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$ipa7o69ibwb3HT8ArQvJY4$I7bvc+a7sBji+SVVFltmLtHywOFyaZnJdnPZA19isio=",
+        "last_login": "2025-05-18T18:49:50.111Z",
+        "is_superuser": false,
+        "username": "jome",
+        "first_name": "Joπo",
+        "last_name": "Meireles",
+        "email": "jome@gmail.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-05-17T16:14:56.663Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$HWRkHQ93u4ahzB6jkiRxnr$eohqqeCWw5K+UO26q3ygwzMDMb4/GvIYZJ1hnJIjarc=",
+        "last_login": "2025-05-18T18:50:30.288Z",
+        "is_superuser": false,
+        "username": "frodrigues",
+        "first_name": "Filipe",
+        "last_name": "Rodrigues",
+        "email": "frodrigues@gmail.pt",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-05-18T09:52:23.940Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$sUzGxd1mfnYF03wXQfOCpk$rW2D603UoKStZexEIFK4XdFNzGjy4NphQ9gm+2xlHaQ=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "hdvbo",
+        "first_name": "Henrique",
+        "last_name": "Velez",
+        "email": "hv@gmail.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-05-18T09:58:36.629Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$YxBVrqt0nnIngejSe8yr8A$O9griH+7jku3ayQJx2QKfbVpl2KzdH1DrqYTJq2RGdw=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "malves",
+        "first_name": "Marcelo",
+        "last_name": "Alves",
+        "email": "malves@hotmail.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-05-18T10:01:42.636Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "utilizadores.utilizador",
+    "pk": 1,
+    "fields": {
+        "user": [
+            "tfsps"
+        ],
+        "contacto": "937467179",
+        "tipo": "administrador"
+    }
+},
+{
+    "model": "utilizadores.utilizador",
+    "pk": 2,
+    "fields": {
+        "user": [
+            "rmgso"
+        ],
+        "contacto": "924661587",
+        "tipo": "cliente"
+    }
+},
+{
+    "model": "utilizadores.utilizador",
+    "pk": 3,
+    "fields": {
+        "user": [
+            "adlfc"
+        ],
+        "contacto": "947951643",
+        "tipo": "prestador"
+    }
+},
+{
+    "model": "utilizadores.utilizador",
+    "pk": 4,
+    "fields": {
+        "user": [
+            "tndr"
+        ],
+        "contacto": "922554163",
+        "tipo": "prestador"
+    }
+},
+{
+    "model": "utilizadores.utilizador",
+    "pk": 5,
+    "fields": {
+        "user": [
+            "mcorreia"
+        ],
+        "contacto": "939999123",
+        "tipo": "cliente"
+    }
+},
+{
+    "model": "utilizadores.utilizador",
+    "pk": 6,
+    "fields": {
+        "user": [
+            "rslva"
+        ],
+        "contacto": "937444121",
+        "tipo": "prestador"
+    }
+},
+{
+    "model": "utilizadores.utilizador",
+    "pk": 7,
+    "fields": {
+        "user": [
+            "jome"
+        ],
+        "contacto": "917845961",
+        "tipo": "prestador"
+    }
+},
+{
+    "model": "utilizadores.utilizador",
+    "pk": 10,
+    "fields": {
+        "user": [
+            "frodrigues"
+        ],
+        "contacto": "933445121",
+        "tipo": "prestador"
+    }
+},
+{
+    "model": "utilizadores.utilizador",
+    "pk": 11,
+    "fields": {
+        "user": [
+            "hdvbo"
+        ],
+        "contacto": "933445661",
+        "tipo": "cliente"
+    }
+},
+{
+    "model": "utilizadores.utilizador",
+    "pk": 12,
+    "fields": {
+        "user": [
+            "malves"
+        ],
+        "contacto": "914755824",
+        "tipo": "cliente"
+    }
+},
+{
+    "model": "anuncios.distrito",
+    "pk": 1,
+    "fields": {
+        "nome": "Aveiro"
+    }
+},
+{
+    "model": "anuncios.distrito",
+    "pk": 2,
+    "fields": {
+        "nome": "Beja"
+    }
+},
+{
+    "model": "anuncios.distrito",
+    "pk": 3,
+    "fields": {
+        "nome": "Braga"
+    }
+},
+{
+    "model": "anuncios.distrito",
+    "pk": 4,
+    "fields": {
+        "nome": "Braganτa"
+    }
+},
+{
+    "model": "anuncios.distrito",
+    "pk": 5,
+    "fields": {
+        "nome": "Castelo Branco"
+    }
+},
+{
+    "model": "anuncios.distrito",
+    "pk": 6,
+    "fields": {
+        "nome": "Coimbra"
+    }
+},
+{
+    "model": "anuncios.distrito",
+    "pk": 7,
+    "fields": {
+        "nome": "╔vora"
+    }
+},
+{
+    "model": "anuncios.distrito",
+    "pk": 8,
+    "fields": {
+        "nome": "Faro"
+    }
+},
+{
+    "model": "anuncios.distrito",
+    "pk": 9,
+    "fields": {
+        "nome": "Guarda"
+    }
+},
+{
+    "model": "anuncios.distrito",
+    "pk": 10,
+    "fields": {
+        "nome": "Leiria"
+    }
+},
+{
+    "model": "anuncios.distrito",
+    "pk": 11,
+    "fields": {
+        "nome": "Lisboa"
+    }
+},
+{
+    "model": "anuncios.distrito",
+    "pk": 12,
+    "fields": {
+        "nome": "Portalegre"
+    }
+},
+{
+    "model": "anuncios.distrito",
+    "pk": 13,
+    "fields": {
+        "nome": "Porto"
+    }
+},
+{
+    "model": "anuncios.distrito",
+    "pk": 14,
+    "fields": {
+        "nome": "SantarΘm"
+    }
+},
+{
+    "model": "anuncios.distrito",
+    "pk": 15,
+    "fields": {
+        "nome": "Set·bal"
+    }
+},
+{
+    "model": "anuncios.distrito",
+    "pk": 16,
+    "fields": {
+        "nome": "Viana do Castelo"
+    }
+},
+{
+    "model": "anuncios.distrito",
+    "pk": 17,
+    "fields": {
+        "nome": "Vila Real"
+    }
+},
+{
+    "model": "anuncios.distrito",
+    "pk": 18,
+    "fields": {
+        "nome": "Viseu"
+    }
+},
+{
+    "model": "anuncios.distrito",
+    "pk": 19,
+    "fields": {
+        "nome": "Aτores"
+    }
+},
+{
+    "model": "anuncios.distrito",
+    "pk": 20,
+    "fields": {
+        "nome": "Madeira"
+    }
+},
+{
+    "model": "anuncios.tiposervico",
+    "pk": 1,
+    "fields": {
+        "designacao": "Eletricista"
+    }
+},
+{
+    "model": "anuncios.tiposervico",
+    "pk": 2,
+    "fields": {
+        "designacao": "Canalizador"
+    }
+},
+{
+    "model": "anuncios.tiposervico",
+    "pk": 3,
+    "fields": {
+        "designacao": "Carpintaria"
+    }
+},
+{
+    "model": "anuncios.tiposervico",
+    "pk": 4,
+    "fields": {
+        "designacao": "Pintura de Interiores/Exteriores"
+    }
+},
+{
+    "model": "anuncios.tiposervico",
+    "pk": 5,
+    "fields": {
+        "designacao": "Revestimentos e Telhados"
+    }
+},
+{
+    "model": "anuncios.tiposervico",
+    "pk": 6,
+    "fields": {
+        "designacao": "Lavagem Autom≤vel"
+    }
+},
+{
+    "model": "anuncios.anuncio",
+    "pk": 2,
+    "fields": {
+        "autor": [
+            "adlfc"
+        ],
+        "distrito": 12,
+        "titulo": "Instalaτ⌡es e Reparaτ⌡es de Redes ElΘtricas",
+        "descricao": "+30 anos de experiΩncia na reparaτπo e instalaτπo de sistemas elΘtricos. Nπo hesite em contactar!",
+        "imagem_perfil": "imagens_perfil/eletricista_JgR97aJ.jpg",
+        "tipo_servico": [
+            1
+        ]
+    }
+},
+{
+    "model": "anuncios.anuncio",
+    "pk": 3,
+    "fields": {
+        "autor": [
+            "rslva"
+        ],
+        "distrito": 16,
+        "titulo": "Limpeza de telhados e chaminΘs",
+        "descricao": "Limpeza de telhados e apliaτπo de revestimentos. Ao dispor para orτamentos!",
+        "imagem_perfil": "imagens_perfil/telhados_l4DH6Jx.jpg",
+        "tipo_servico": [
+            5
+        ]
+    }
+},
+{
+    "model": "anuncios.anuncio",
+    "pk": 4,
+    "fields": {
+        "autor": [
+            "frodrigues"
+        ],
+        "distrito": 13,
+        "titulo": "Pintura de Casas e Edφficios",
+        "descricao": "S≤ trabalho com as melhores tintas e sou extremamente perfecionista. Contacte-me sem mais demoras!",
+        "imagem_perfil": "imagens_perfil/pintor_T10kfyF.jpg",
+        "tipo_servico": [
+            4
+        ]
+    }
+},
+{
+    "model": "anuncios.anuncio",
+    "pk": 5,
+    "fields": {
+        "autor": [
+            "jome"
+        ],
+        "distrito": 10,
+        "titulo": "Cozinhas e Outras Peτas em Madeira",
+        "descricao": "Faτo todo o tipo de trabalhos em madeira. Restauro de peτas de madeira tambΘm Θ comigo! :)",
+        "imagem_perfil": "imagens_perfil/carpinteiro_9F7iTXT.jpg",
+        "tipo_servico": [
+            3
+        ]
+    }
+},
+{
+    "model": "anuncios.imagemanuncio",
+    "pk": 3,
+    "fields": {
+        "anuncio": 2,
+        "imagem": "imagens_anuncios/quadroeletrico2_XoUw1Ye.png"
+    }
+},
+{
+    "model": "anuncios.imagemanuncio",
+    "pk": 4,
+    "fields": {
+        "anuncio": 2,
+        "imagem": "imagens_anuncios/quadroeletrico1_a9ibnED.jpeg"
+    }
+},
+{
+    "model": "anuncios.imagemanuncio",
+    "pk": 5,
+    "fields": {
+        "anuncio": 3,
+        "imagem": "imagens_anuncios/roofs1_syrXSyy.jpg"
+    }
+},
+{
+    "model": "anuncios.imagemanuncio",
+    "pk": 6,
+    "fields": {
+        "anuncio": 3,
+        "imagem": "imagens_anuncios/roofs2_x1qENkM.jpg"
+    }
+},
+{
+    "model": "anuncios.imagemanuncio",
+    "pk": 7,
+    "fields": {
+        "anuncio": 4,
+        "imagem": "imagens_anuncios/pintar1_BDhvLSQ.jpg"
+    }
+},
+{
+    "model": "anuncios.imagemanuncio",
+    "pk": 8,
+    "fields": {
+        "anuncio": 4,
+        "imagem": "imagens_anuncios/pintar2_Wa1a2Pd.jpg"
+    }
+},
+{
+    "model": "anuncios.imagemanuncio",
+    "pk": 9,
+    "fields": {
+        "anuncio": 5,
+        "imagem": "imagens_anuncios/carpintaria2_w3vuOVR.jpg"
+    }
+},
+{
+    "model": "anuncios.imagemanuncio",
+    "pk": 10,
+    "fields": {
+        "anuncio": 5,
+        "imagem": "imagens_anuncios/carpinteiro1_A7SZV5a.png"
+    }
+},
+{
+    "model": "mensagens.mensagem",
+    "pk": 1,
+    "fields": {
+        "remetente": [
+            "rslva"
+        ],
+        "destinatario": [
+            "adlfc"
+        ],
+        "texto": "Boas! Gostava de saber quando tem disponibilidade para vir a minha casa ver quanto tempo levaria a reparar o meu quadro elΘtrico.",
+        "timestamp": "2025-05-17T18:41:47.530Z",
+        "lida": true
+    }
+},
+{
+    "model": "mensagens.mensagem",
+    "pk": 2,
+    "fields": {
+        "remetente": [
+            "frodrigues"
+        ],
+        "destinatario": [
+            "rslva"
+        ],
+        "texto": "Bom dia amigo!",
+        "timestamp": "2025-05-18T18:39:08.280Z",
+        "lida": true
+    }
+},
+{
+    "model": "mensagens.mensagem",
+    "pk": 3,
+    "fields": {
+        "remetente": [
+            "jome"
+        ],
+        "destinatario": [
+            "adlfc"
+        ],
+        "texto": "TambΘm faz parte elΘtrica autom≤vel?",
+        "timestamp": "2025-05-18T18:47:49.247Z",
+        "lida": true
+    }
+},
+{
+    "model": "mensagens.mensagem",
+    "pk": 4,
+    "fields": {
+        "remetente": [
+            "adlfc"
+        ],
+        "destinatario": [
+            "rslva"
+        ],
+        "texto": "Epa agora Θ complicado, tenho mais que fazer amigo",
+        "timestamp": "2025-05-18T18:48:32.504Z",
+        "lida": true
+    }
+},
+{
+    "model": "mensagens.mensagem",
+    "pk": 5,
+    "fields": {
+        "remetente": [
+            "adlfc"
+        ],
+        "destinatario": [
+            "rslva"
+        ],
+        "texto": "mas dΩ me o seu contacto que eu lß para quinta sou capaz de dar aφ um saltinho. Tß bem?",
+        "timestamp": "2025-05-18T18:49:02.714Z",
+        "lida": true
+    }
+},
+{
+    "model": "mensagens.mensagem",
+    "pk": 6,
+    "fields": {
+        "remetente": [
+            "adlfc"
+        ],
+        "destinatario": [
+            "jome"
+        ],
+        "texto": "Ora claro que faτo, de que ano Θ o carro que estß a pensar?",
+        "timestamp": "2025-05-18T18:49:33.160Z",
+        "lida": true
+    }
+},
+{
+    "model": "mensagens.mensagem",
+    "pk": 7,
+    "fields": {
+        "remetente": [
+            "jome"
+        ],
+        "destinatario": [
+            "adlfc"
+        ],
+        "texto": "Um opel astra de 2009",
+        "timestamp": "2025-05-18T18:50:07.395Z",
+        "lida": false
+    }
+},
+{
+    "model": "mensagens.mensagem",
+    "pk": 8,
+    "fields": {
+        "remetente": [
+            "rslva"
+        ],
+        "destinatario": [
+            "adlfc"
+        ],
+        "texto": "937522137",
+        "timestamp": "2025-05-18T18:51:23.917Z",
+        "lida": false
+    }
+},
+{
+    "model": "mensagens.mensagem",
+    "pk": 9,
+    "fields": {
+        "remetente": [
+            "rslva"
+        ],
+        "destinatario": [
+            "adlfc"
+        ],
+        "texto": "atπo vß parceiro, veja lß se me desenrasca",
+        "timestamp": "2025-05-18T18:51:44.493Z",
+        "lida": false
+    }
+},
+{
+    "model": "mensagens.mensagem",
+    "pk": 10,
+    "fields": {
+        "remetente": [
+            "rslva"
+        ],
+        "destinatario": [
+            "frodrigues"
+        ],
+        "texto": "Boa tarde, em que posso ajudar?",
+        "timestamp": "2025-05-18T18:51:57.005Z",
+        "lida": false
+    }
+}
+]

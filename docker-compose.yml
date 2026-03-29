@@ -21,22 +21,23 @@ services:
       - "127.0.0.1:8000:8000"
     environment:
       - POSTGRES_HOST=db
+      - POSTGRES_DB=tasknow_db
+      - POSTGRES_USER=tasknow_user
+      - POSTGRES_PASSWORD=tasknow_password
     depends_on:
       - db
     restart: always
 
   frontend:
-    build: frontend/
+    build: ./frontend
     volumes:
       - ./frontend:/app
-      - /app/node_modules
     ports:
       - "127.0.0.1:3000:3000"
-    command: sh -c "npm install && npm start"
     environment:
-      - WDS_SOCKET_PORT=0
       - CHOKIDAR_USEPOLLING=true
       - WATCHPACK_POLLING=true
+      - WDS_SOCKET_PORT=0
     depends_on:
       - backend
     restart: always

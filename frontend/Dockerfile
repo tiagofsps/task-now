@@ -1,15 +1,25 @@
-FROM node:20-alpine
+FROM node:20-slim
 
-# Set working directory
-WORKDIR /app
-
-# Install dependencies first for better layer caching
-COPY package.json package-lock.json ./
+# Install dependencies into the root folder to avoid shadowing from the host volume
+WORKDIR /
+COPY package*.json ./
 RUN npm install
 
-# Copy application source code
-COPY . ./
+# Set work directory for the application
+WORKDIR /app
 
-# Start the application specifying external port mapping
+# Enable polling for hot reload to work in Docker
+ENV CHOKIDAR_USEPOLLING=true
+ENV WATCHPACK_POLLING=true
+
+# Ensure the installed node_modules are available in the PATH
+ENV PATH /node_modules/.bin:$PATH
+
+# Copy project (will be overlaid by volume in dev)
+COPY . .
+
+# Port for React
 EXPOSE 3000
+
+# Default command
 CMD ["npm", "start"]
