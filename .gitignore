@@ -44,3 +44,4 @@ __pycache__/
 *.pyc
 __pycache__/
 datadump.json
+.env

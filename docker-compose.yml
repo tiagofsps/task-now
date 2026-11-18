@@ -1,14 +1,12 @@
-version: '3.8'
-
 services:
   db:
     image: postgres:15
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     environment:
-      - POSTGRES_DB=tasknow_db
-      - POSTGRES_USER=tasknow_user
-      - POSTGRES_PASSWORD=tasknow_password
+      - POSTGRES_DB=${POSTGRES_DB:-tasknow_db}
+      - POSTGRES_USER=${POSTGRES_USER:-tasknow_user}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-tasknow_password}
     ports:
       - "127.0.0.1:5432:5432"
     restart: always
@@ -21,9 +19,12 @@ services:
       - "127.0.0.1:8000:8000"
     environment:
       - POSTGRES_HOST=db
-      - POSTGRES_DB=tasknow_db
-      - POSTGRES_USER=tasknow_user
-      - POSTGRES_PASSWORD=tasknow_password
+      - POSTGRES_DB=${POSTGRES_DB:-tasknow_db}
+      - POSTGRES_USER=${POSTGRES_USER:-tasknow_user}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-tasknow_password}
+      - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY:-django-insecure-dev-only-key-do-not-use-in-production}
+      - DJANGO_DEBUG=${DJANGO_DEBUG:-True}
+      - DJANGO_ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS:-localhost,127.0.0.1,backend}
     depends_on:
       - db
     restart: always
