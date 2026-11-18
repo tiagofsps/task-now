@@ -72,6 +72,9 @@ class Command(BaseCommand):
             )
             if created:
                 user.set_password(DEMO_PASSWORD)
+                if tipo == 'administrador':
+                    user.is_staff = True
+                    user.is_superuser = True
                 user.save()
             Utilizador.objects.get_or_create(user=user, defaults={'tipo': tipo})
             users[username] = user

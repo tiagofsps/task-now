@@ -1,75 +1,139 @@
-# 🚀 TaskNow
+# TaskNow
 
-**TaskNow** is a full-stack web application designed to seamlessly connect clients with professional service providers. Whether you need a plumber, an electrician, a carpenter, or a roofer, TaskNow provides a unified, intuitive platform to post service requests, manage advertisements, and facilitate direct communication between users.
+[![CI](https://github.com/tiagofsps/task-now/actions/workflows/ci.yml/badge.svg)](https://github.com/tiagofsps/task-now/actions/workflows/ci.yml)
+![Python](https://img.shields.io/badge/Python-3.12-3776ab?logo=python&logoColor=white)
+![Django](https://img.shields.io/badge/Django-6.0-092e20?logo=django&logoColor=white)
+![React](https://img.shields.io/badge/React-19-149eca?logo=react&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-4169e1?logo=postgresql&logoColor=white)
+![License: MIT](https://img.shields.io/badge/License-MIT-green)
 
----
+A full-stack marketplace that connects clients with service providers — a
+plumber, an electrician, a carpenter. Clients search adverts by district and
+service type, open a conversation with the provider, and manage their own
+adverts; providers publish their services; administrators manage users, service
+types and adverts.
 
-## 🛠️ Technology Stack
+Built with Django REST Framework and React, containerised with Docker Compose.
 
-TaskNow adopts a modern, containerized architecture:
+![Login screen](docs/images/login.png)
 
-- **Frontend**: [React.js](https://reactjs.org/) (Client-side UI)
-- **Backend**: [Django](https://www.djangoproject.com/) & [Django REST Framework (DRF)](https://www.django-rest-framework.org/)
-- **Database**: [PostgreSQL](https://www.postgresql.org/) (Data storage)
-- **Orchestration**: [Docker](https://www.docker.com/) & [Docker Compose](https://docs.docker.com/compose/)
+## About this project
 
----
+This is my first web project, written in April and May 2025 while learning
+Django and React from scratch. It was never a product: it exists to show how I
+approach a domain I did not know, and the commit history is the original one —
+including the day I was stuck on authentication errors and the one where login
+finally worked.
 
-## 🚀 Quick Start
+The 2026 pass containerised it, moved it from SQLite to PostgreSQL, renamed the
+frontend and added this documentation. Everything after that is ordinary
+development.
 
-The entire project is containerized, making it easy to set up with a single command.
+## What it does
 
-### Prerequisites
+| Area | Behaviour |
+|---|---|
+| Search | Filter adverts by district and service type, open an advert, contact the provider |
+| Accounts | Sign up, log in, log out, profile and profile picture |
+| Adverts | Create, edit and delete your own advert; attach images |
+| Messaging | Per-advert conversations between client and provider |
+| Admin | Manage users, service types and adverts from the app; Django admin for the rest |
 
-- [Docker](https://www.docker.com/get-started)
-- [Docker Compose](https://docs.docker.com/compose/install/)
+## Architecture
 
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/tiagofsps/TaskNow.git
-cd TaskNow
+```mermaid
+flowchart LR
+  Browser -->|React 19 SPA| API
+  subgraph api[Django REST Framework]
+    Users[utilizadores]
+    Ads[anuncios]
+    Chat[mensagens]
+  end
+  API --> Users
+  API --> Ads
+  API --> Chat
+  Users --> DB[(PostgreSQL 15)]
+  Ads --> DB
+  Chat --> DB
+  API --> Media[(media/ uploads)]
 ```
 
-### 2. Launch the Application
+- `utilizadores/` — custom user profile on top of Django's `User`, authentication endpoints
+- `anuncios/` — districts, service types, adverts and advert images
+- `mensagens/` — conversations between a client and a provider
+- `diam_project/` — settings, URLs and WSGI/ASGI entry points
+- `frontend/` — the React application (Create React App)
 
-Run the following command to build the images, start the containers, and initialize the database:
+Session authentication: the API uses Django sessions and CSRF, not tokens.
+
+## Quickstart
+
+Requires Docker and Docker Compose.
 
 ```bash
-docker-compose up --build
+git clone git@github.com:tiagofsps/task-now.git
+cd task-now
+cp .env.example .env      # optional: adjust database credentials or the secret key
+docker compose up --build
 ```
 
-**Wait, what's happening?**
-- **PostgreSQL** starts and initializes.
-- **Django** automatically runs migrations and seeds the initial data (Users, Districts, etc.) from `datadump.json`.
-- **React** starts the development server with hot-reload enabled.
+- Frontend: http://localhost:3000
+- API: http://localhost:8000
+- Django admin: http://localhost:8000/admin/
 
-### 3. Access the Services
+On first start the container applies migrations and seeds demo data
+(`python manage.py seed_demo`): 18 districts, 7 service types, three accounts and
+a couple of adverts. The command is idempotent, so restarts are safe.
 
-- **Frontend**: [http://localhost:3000](http://localhost:3000)
-- **Backend API**: [http://localhost:8000](http://localhost:8000)
-- **Django Admin**: [http://localhost:8000/admin](http://localhost:8000/admin)
+### Demo accounts
 
----
+| Account | Username | Password |
+|---|---|---|
+| Client | `cliente_demo` | `Password123!` |
+| Provider | `prestador_demo` | `Password123!` |
+| Admin | `admin_demo` | `Password123!` |
 
-## 📂 Project Structure
+## Configuration
 
-- `/backend`: Django project files, API routes, and database models.
-- `/frontend`: React application using isolated dependencies for consistent development.
-- `docker-compose.yml`: Orchestration file for the frontend, backend, and db services.
-- `entrypoint.sh`: Automated startup script for database initialization and seeding.
+All settings come from the environment; `.env.example` documents each variable.
 
----
+| Variable | Default | Purpose |
+|---|---|---|
+| `POSTGRES_DB` / `POSTGRES_USER` / `POSTGRES_PASSWORD` | `tasknow_db` / `tasknow_user` / `tasknow_password` | Database |
+| `POSTGRES_HOST` / `POSTGRES_PORT` | `db` / `5432` | Database location |
+| `DJANGO_SECRET_KEY` | development fallback | Signing key; set it for anything public |
+| `DJANGO_DEBUG` | `True` | Debug mode |
+| `DJANGO_ALLOWED_HOSTS` | `localhost,127.0.0.1` | Comma-separated hosts |
 
-## 🌟 Key Features
+## Tests and CI
 
-- **User Roles**: Sign-up and login specialized for both Service Providers and Clients.
-- **Service Listings**: Comprehensive advertisement management for providers.
-- **Direct Messaging**: Integrated chat system for real-time communication.
-- **Automated Setup**: One-command initialization with smart data seeding.
+```bash
+docker compose up -d db
+docker compose run --rm backend python manage.py test
+```
 
----
+Nine tests cover the seeder (including idempotency), login, logout and the
+public catalogue endpoints. CI runs them against a PostgreSQL service, plus
+Django system checks, a migration-drift check and a production frontend build.
 
-## 📜 License
+The frontend has no automated tests yet; that is the most obvious gap.
 
-This project is licensed under the MIT License.
+## Tradeoffs and what I'd do differently
+
+- **`Anuncio.autor` is a `OneToOneField`**, so a user can own only one advert.
+  It should be a `ForeignKey`; the seeder works around it.
+- **The frontend calls `http://localhost:8000` directly** in several components
+  instead of using a single configured base URL.
+- **Create React App is unmaintained.** React 19 on `react-scripts` 5 works, but
+  I would start a new project on Vite.
+- **No frontend tests**, and the backend suite covers the endpoints rather than
+  the full UI flows.
+- **Session authentication with CSRF** is fine for a same-origin app; a separate
+  frontend deployment would need CORS credentials handled carefully, or tokens.
+
+## License
+
+[MIT](LICENSE) © 2026 Tiago Pires.
+
+Written as a college project and published as a portfolio piece. Use it, learn
+from it, or borrow from it; contributions are not expected.
