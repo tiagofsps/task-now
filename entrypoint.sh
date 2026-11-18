@@ -4,8 +4,14 @@
 set -e
 
 echo "Waiting for PostgreSQL to start..."
-while ! nc -z db 5432; do
-  sleep 0.1
+# Uses the Python standard library: the slim image has no netcat.
+until python -c "
+import socket, sys
+s = socket.socket()
+s.settimeout(1)
+sys.exit(0 if s.connect_ex(('db', 5432)) == 0 else 1)
+"; do
+  sleep 1
 done
 echo "PostgreSQL started"
 
