@@ -18,7 +18,7 @@ function Login() {
             if (error.response && error.response.data && error.response.data.error) {
                 alert('Login failed: ' + error.response.data.error);
             } else {
-                alert('Erro ao efetuar login: ' + 'verifique as suas credenciais e tente novamente e se o erro persistir contacte a nossa equipa');
+                alert('Erro ao efetuar login: verifique as suas credenciais e tente novamente. Se o erro persistir, contacte a nossa equipa.');
                 console.error('Erro:', error);
             }
         }

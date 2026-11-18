@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { getCSRFToken } from './UseCSRFToken';
 import Header from './Header';
 import Footer from './Footer';
@@ -11,8 +11,6 @@ import Spinner from 'react-bootstrap/Spinner';
 function Chat({ destinatarioId }) {
   const [mensagens, setMensagens] = useState([]);
   const [texto, setTexto] = useState('');
-  const [userIdLogado, setUserIdLogado] = useState(null);
-  const [usernameLogado, setUsernameLogado] = useState('');
   const [loading, setLoading] = useState(true);
 
   const carregarUserId = async () => {
@@ -21,16 +19,14 @@ function Chat({ destinatarioId }) {
         credentials: 'include',
       });
       if (res.ok) {
-        const dados = await res.json();
-        setUserIdLogado(dados.id);
-        setUsernameLogado(dados.username);
+        await res.json();
       }
     } catch (erro) {
       console.error('Erro ao buscar o utilizador logado:', erro);
     }
   };
 
-  const carregarMensagens = async () => {
+  const carregarMensagens = useCallback(async () => {
     try {
       const res = await fetch(`http://localhost:8000/chat/api/mensagens/?com=${destinatarioId}`, {
         credentials: 'include',
@@ -43,7 +39,7 @@ function Chat({ destinatarioId }) {
     } catch (erro) {
       console.error('Erro ao buscar mensagens:', erro);
     }
-  };
+  }, [destinatarioId]);
 
   const enviarMensagem = async (e) => {
     e.preventDefault();
@@ -81,7 +77,7 @@ function Chat({ destinatarioId }) {
     carregarMensagens();
     const intervalo = setInterval(carregarMensagens, 3000);
     return () => clearInterval(intervalo);
-  }, [destinatarioId]);
+  }, [destinatarioId, carregarMensagens]);
 
   return (
     <>
