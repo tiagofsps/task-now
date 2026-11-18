@@ -40,3 +40,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 *.log
+# Generated and local-only artefacts
+*.pyc
+__pycache__/
+datadump.json
