@@ -7,11 +7,10 @@ services:
       - POSTGRES_DB=${POSTGRES_DB:-tasknow_db}
       - POSTGRES_USER=${POSTGRES_USER:-tasknow_user}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-tasknow_password}
-    # No host port: the backend reaches the database over the compose network,
-    # and publishing 5432 would collide with any other Postgres on the machine.
-    # Uncomment to connect with a database client.
-    # ports:
-    #   - "127.0.0.1:5433:5432"
+    # Published on 5433 so a host `manage.py runserver` can reach it without
+    # colliding with a PostgreSQL already listening on 5432.
+    ports:
+      - "127.0.0.1:${POSTGRES_HOST_PORT:-5433}:5432"
     restart: always
 
   backend:

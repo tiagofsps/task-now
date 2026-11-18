@@ -85,6 +85,40 @@ On first start the container applies migrations and seeds demo data
 (`python manage.py seed_demo`): 18 districts, 7 service types, three accounts and
 a couple of adverts. The command is idempotent, so restarts are safe.
 
+### Run without Docker
+
+The database is published on port 5433, so Django can run on the host while
+PostgreSQL stays in a container.
+
+```bash
+# 1. Database only
+docker compose up -d db
+
+# 2. Python environment
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+
+# 3. Point Django at the published port and prepare the database
+export POSTGRES_HOST=127.0.0.1 POSTGRES_PORT=5433
+python manage.py migrate
+python manage.py seed_demo
+
+# 4. Run the API
+python manage.py runserver 8000
+```
+
+Then the frontend, in a second terminal:
+
+```bash
+cd frontend
+npm install
+npm start          # http://localhost:3000
+```
+
+Django reads these settings from the environment, not from `.env`; export the
+variables or set them in your shell profile.
+
 ### Demo accounts
 
 | Account | Username | Password |
@@ -100,7 +134,8 @@ All settings come from the environment; `.env.example` documents each variable.
 | Variable | Default | Purpose |
 |---|---|---|
 | `POSTGRES_DB` / `POSTGRES_USER` / `POSTGRES_PASSWORD` | `tasknow_db` / `tasknow_user` / `tasknow_password` | Database |
-| `POSTGRES_HOST` / `POSTGRES_PORT` | `db` / `5432` | Database location |
+| `POSTGRES_HOST` / `POSTGRES_PORT` | `127.0.0.1` / `5432` | Database location (compose sets `db` for containers) |
+| `POSTGRES_HOST_PORT` | `5433` | Host port the database container is published on |
 | `DJANGO_SECRET_KEY` | development fallback | Signing key; set it for anything public |
 | `DJANGO_DEBUG` | `True` | Debug mode |
 | `DJANGO_ALLOWED_HOSTS` | `localhost,127.0.0.1` | Comma-separated hosts |
@@ -109,6 +144,8 @@ All settings come from the environment; `.env.example` documents each variable.
 
 ```bash
 docker compose up -d db
+python manage.py test                     # in the venv, with POSTGRES_PORT=5433
+# or
 docker compose run --rm backend python manage.py test
 ```
 

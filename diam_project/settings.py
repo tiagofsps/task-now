@@ -109,7 +109,9 @@ DATABASES = {
         'NAME': os.environ.get('POSTGRES_DB', 'tasknow_db'),
         'USER': os.environ.get('POSTGRES_USER', 'tasknow_user'),
         'PASSWORD': os.environ.get('POSTGRES_PASSWORD', 'tasknow_password'),
-        'HOST': os.environ.get('POSTGRES_HOST', 'db'),
+        # Defaults to localhost so `manage.py runserver` works on the host;
+        # docker compose sets POSTGRES_HOST=db for the container.
+        'HOST': os.environ.get('POSTGRES_HOST', '127.0.0.1'),
         'PORT': os.environ.get('POSTGRES_PORT', '5432'),
     }
 }
