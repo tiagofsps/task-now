@@ -58,9 +58,11 @@ class Command(BaseCommand):
 
     @transaction.atomic
     def handle(self, *args, **options):
+        verbose = options.get('verbosity', 1) > 0
         distritos = {nome: Distrito.objects.get_or_create(nome=nome)[0] for nome in DISTRITOS}
         servicos = {nome: TipoServico.objects.get_or_create(designacao=nome)[0] for nome in SERVICOS}
-        self.stdout.write(f'Distritos: {len(distritos)}, serviços: {len(servicos)}')
+        if verbose:
+            self.stdout.write(f'Distritos: {len(distritos)}, serviços: {len(servicos)}')
 
         users = {}
         for username, email, first_name, tipo in USERS:
@@ -73,7 +75,8 @@ class Command(BaseCommand):
                 user.save()
             Utilizador.objects.get_or_create(user=user, defaults={'tipo': tipo})
             users[username] = user
-        self.stdout.write(f'Utilizadores: {len(users)}')
+        if verbose:
+            self.stdout.write(f'Utilizadores: {len(users)}')
 
         criados = 0
         for titulo, descricao, distrito, servico, autor in ANUNCIOS:
@@ -88,5 +91,7 @@ class Command(BaseCommand):
             )
             anuncio.tipo_servico.add(servicos[servico])
             criados += 1
-        self.stdout.write(f'Anúncios criados: {criados}')
-        self.stdout.write(self.style.SUCCESS('Demo data ready.'))
+        if verbose:
+            self.stdout.write(f'Anúncios criados: {criados}')
+        if verbose:
+            self.stdout.write(self.style.SUCCESS('Demo data ready.'))
