@@ -1,25 +1,19 @@
 FROM node:20-slim
 
-# Install dependencies into the root folder to avoid shadowing from the host volume
-WORKDIR /
-COPY package*.json ./
-RUN npm install
-
-# Set work directory for the application
 WORKDIR /app
 
-# Enable polling for hot reload to work in Docker
+# Install dependencies from the lockfile so the image is reproducible.
+COPY package*.json ./
+RUN npm ci
+
+# Copy the project; in development docker compose overlays this with a bind
+# mount, and an anonymous volume keeps the image's node_modules in place.
+COPY . .
+
+# Polling keeps hot reload working when the source is a bind mount.
 ENV CHOKIDAR_USEPOLLING=true
 ENV WATCHPACK_POLLING=true
 
-# Ensure the installed node_modules are available in the PATH
-ENV PATH /node_modules/.bin:$PATH
-
-# Copy project (will be overlaid by volume in dev)
-COPY . .
-
-# Port for React
 EXPOSE 3000
 
-# Default command
 CMD ["npm", "start"]

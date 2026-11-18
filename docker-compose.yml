@@ -7,8 +7,11 @@ services:
       - POSTGRES_DB=${POSTGRES_DB:-tasknow_db}
       - POSTGRES_USER=${POSTGRES_USER:-tasknow_user}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-tasknow_password}
-    ports:
-      - "127.0.0.1:5432:5432"
+    # No host port: the backend reaches the database over the compose network,
+    # and publishing 5432 would collide with any other Postgres on the machine.
+    # Uncomment to connect with a database client.
+    # ports:
+    #   - "127.0.0.1:5433:5432"
     restart: always
 
   backend:
@@ -33,6 +36,9 @@ services:
     build: ./frontend
     volumes:
       - ./frontend:/app
+      # Keep the image's node_modules instead of the host's, which may be
+      # missing or built for another platform.
+      - /app/node_modules
     ports:
       - "127.0.0.1:3000:3000"
     environment:
