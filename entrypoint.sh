@@ -13,13 +13,13 @@ echo "PostgreSQL started"
 echo "Applying database migrations..."
 python manage.py migrate --noinput
 
-# Smart Seeding: Load fixtures only if the database is empty (no users found)
+# Seed demo data when the database is empty. The command is idempotent.
 echo "Checking if database needs seeding..."
 USER_COUNT=$(python manage.py shell -c "from django.contrib.auth.models import User; print(User.objects.count())" | tail -n 1)
 
 if [ "$USER_COUNT" = "0" ]; then
-    echo "Database is empty. Loading datadump.json..."
-    python manage.py loaddata datadump.json
+    echo "Database is empty. Creating demo data..."
+    python manage.py seed_demo
 else
     echo "Database already has data (found $USER_COUNT users). Skipping seed."
 fi
